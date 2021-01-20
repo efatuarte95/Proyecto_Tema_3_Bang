@@ -18,8 +18,6 @@ public class Jugador {
 	// CONSTRUCTOR
 	public Jugador() {};
 
-
-
 	public Jugador(String nombre, int vidaActual, int idx_Rol, int idx_Personaje, Carta[] cartas,
 			boolean volcanicActiva) {
 		this.nombre = nombre;
@@ -29,8 +27,6 @@ public class Jugador {
 		Cartas = cartas;
 		this.volcanicActiva = volcanicActiva;
 	}
-
-
 
 	// GETTERS & SETTERS
 	public String getNombre() {

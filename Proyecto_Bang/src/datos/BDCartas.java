@@ -1,7 +1,5 @@
 package datos;
 
-import model.Carta;
-
 public class BDCartas {
 
 	// Tipo 0 = Bang; Tipo 1 = Fallaste; Tipo 2 = Acción; Tipo 3 = Arma
@@ -12,4 +10,22 @@ public class BDCartas {
 	private String nombre_cartas[] = {"Salón", "Cerveza", "Almacén", "Diligencia", "Wells Fargo", 
 			"Ametralladora Gatling", "¡Indios!", "Duelo", "Colt 45", "Revolver Carabine", "Schofield", 
 			"Winchester", "Remington", "Volcanic", "Mira Telescópica", "Mustang", "¡BANG!", "Fallaste"};
+
+	public int[][] getIdCartas() {
+		return idCartas;
+	}
+
+	public void setIdCartas(int[][] idCartas) {
+		this.idCartas = idCartas;
+	}
+
+	public String[] getNombre_cartas() {
+		return nombre_cartas;
+	}
+
+	public void setNombre_cartas(String[] nombre_cartas) {
+		this.nombre_cartas = nombre_cartas;
+	}
+	
+	
 }

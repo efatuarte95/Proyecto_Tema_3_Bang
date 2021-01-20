@@ -35,7 +35,7 @@ public class Principal {
 		int maxJugadores = 5, jug_Creados = 0;
 		int op, opCarta;
 		String nombre;
-		Partida p;
+		Partida p = new Partida(0, null, bdp.getRol(), bdpj.getPersonajes(), 0, 50, 50, 1, 0, false);
 		jugadores = new Jugador [maxJugadores];
 		idRol = new int[maxJugadores];
 		
@@ -48,8 +48,8 @@ public class Principal {
 			jugadores[i] = new Jugador();
 			cp.agregarJugador(nombre, jugadores[i], i);
 		}
+		p.setJugadores(jugadores);
 		
-		p = new Partida (0, jugadores, bdp.getRol(), bdpj.getPersonajes(), 0, 0, 0, 1, 0, false);
 		System.out.println(p);
 
 		do {
