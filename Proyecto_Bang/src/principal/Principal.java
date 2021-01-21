@@ -3,8 +3,10 @@ package principal;
 import controller.PasarTurno;
 import crud.CrudJugador;
 import crud.CrudPartida;
+import datos.BDCartas;
 import datos.BDPartida;
 import datos.BDPersonajes;
+import model.Carta;
 import model.Jugador;
 import model.Partida;
 import utilidades.Leer;
@@ -18,6 +20,7 @@ public class Principal {
 		// Objetos de Datos
 		BDPartida bdp = new BDPartida();
 		BDPersonajes bdpj = new BDPersonajes();
+		BDCartas bdc = new BDCartas();
 		
 		// Objetos de Cruds
 		CrudJugador cj = new CrudJugador();
@@ -31,13 +34,12 @@ public class Principal {
 		PasarTurno pt = new PasarTurno ();
 		
 		Jugador jugadores[];
-		int idRol[];
+		Carta cartas[];
 		int maxJugadores = 5, jug_Creados = 0;
 		int op, opCarta;
 		String nombre;
-		Partida p = new Partida(0, null, bdp.getRol(), bdpj.getPersonajes(), 0, 50, 50, 1, 0, false);
+		Partida p = new Partida(0, null, bdp.getRol(), bdpj.getPersonajes(), bdc.getCartas(), 0, 0, 0, 0, 0, false);
 		jugadores = new Jugador [maxJugadores];
-		idRol = new int[maxJugadores];
 		
 		im.mostrarInstrucciones();
 		System.out.println("\nA continuación, introduce el nombre de los intrépidos jugadores que viajarán al lejano Oeste:\n");
@@ -47,13 +49,19 @@ public class Principal {
 			nombre = Leer.dato();
 			jugadores[i] = new Jugador();
 			cp.agregarJugador(nombre, jugadores[i], i);
+			for (int j = 0; j < p.getPersonaje()[jugadores[i].getIdx_Personaje()].getVida(); j++) {
+				cartas = new Carta[p.getPersonaje()[jugadores[i].getIdx_Personaje()].getVida()];
+				cartas[j] = bdc.getCartas()[cj.asignarCartas()];
+				jugadores[i].setCartas(cartas);
+				cartas[j].setIdJugador(i);
+			}
 		}
 		p.setJugadores(jugadores);
 		
 		System.out.println(p);
 
 		do {
-			for (int i = 0; i < jugadores.length; i++) {
+			for (int i = 0; i < jugadores.length; i++) {	
 				do {
 					ip.mostrarAcciones();
 					op = Leer.datoInt();
@@ -62,7 +70,7 @@ public class Principal {
 					case 1:
 						System.out.println("¿Qué carta deseas jugar?");
 						for (int j = 0; j < jugadores[i].getCartas().length; j++) {
-							System.out.println("[" + (i+1) + "] - " + jugadores[i].getCartas()[j]);
+							System.out.println("[" + (i+1) + "] - " + jugadores[i].getCartas()[j].getNombre());
 							opCarta = Leer.datoInt();
 						}
 						break;
@@ -71,11 +79,15 @@ public class Principal {
 						break;
 					case 3:
 						System.out.println("Las cartas que tienes actualmente son:");
+						for (int j = 0; j < jugadores[i].getCartas().length; j++) {
+							System.out.println("[" + (i+1) + "] - " + jugadores[i].getCartas()[j].getNombre());
+							System.out.println("Descripción: " + "[" + (i+1) + "] - " + jugadores[i].getCartas()[j].getDescripcion() + "\n");
+						}
 						break;
 					case 4:
 						System.out.println("¿De qué carta deseas deshacerte?");
 						for (int j = 0; j < jugadores[i].getCartas().length; j++) {
-							System.out.println("[" + (i+1) + "] - " + jugadores[i].getCartas()[j]);
+							System.out.println("[" + (i+1) + "] - " + jugadores[i].getCartas()[j].getNombre());
 							opCarta = Leer.datoInt();
 						}
 						break;

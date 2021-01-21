@@ -42,6 +42,21 @@ public class ImprimirPartida {
 		System.out.println("Estamos en la ronda nº " + p.getNumRonda());
 		System.out.println("Es el turno de " + p.getJugadores()[p.getTurnoJugador()].getNombre());
 	}
+	
+	public void mostrarMenuPartida() {
+		System.out.println("[1] - Iniciar Nueva Partida");
+		System.out.println("[0] - Salir.");
+	}
+	
+	public void mostrarMenuAgregarJugador() {
+		System.out.println("[1] - Añadir nuevo jugador");
+		System.out.println("[0] - Salir.");
+	}
+	
+	public void mostrarComenzarPartida() {
+		System.out.println("[1] - Comenzar Partida");
+		System.out.println("[0] - Volver al menú de creación.");
+	}
 
 }
 

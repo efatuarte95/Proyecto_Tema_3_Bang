@@ -11,6 +11,7 @@ public class Partida {
 	private Jugador jugadores[];
 	private String rol[];
 	private Personaje personaje[];
+	private Carta cartas[];
 	private int idUltimaCarta;
 	private int maxBang;
 	private int maxFallaste;
@@ -23,12 +24,13 @@ public class Partida {
 	
 	public Partida(String rol[]) {};
 	
-	public Partida(int ganador, Jugador[] jugadores, String[] rol, Personaje[] personaje, int idUltimaCarta,
-			int maxBang, int maxFallaste, int numRonda, int turnoJugador, boolean finPartida) {
+	public Partida(int ganador, Jugador[] jugadores, String[] rol, Personaje[] personaje, Carta[] cartas,
+			int idUltimaCarta, int maxBang, int maxFallaste, int numRonda, int turnoJugador, boolean finPartida) {
 		this.ganador = ganador;
 		this.jugadores = jugadores;
 		this.rol = rol;
 		this.personaje = personaje;
+		this.cartas = cartas;
 		this.idUltimaCarta = idUltimaCarta;
 		this.maxBang = maxBang;
 		this.maxFallaste = maxFallaste;
@@ -36,7 +38,7 @@ public class Partida {
 		this.turnoJugador = turnoJugador;
 		this.finPartida = finPartida;
 	}
-	
+
 	// GETTERS & SETTERS 
 	public int getGanador() {
 		return ganador;
@@ -68,6 +70,14 @@ public class Partida {
 
 	public void setPersonaje(Personaje[] personaje) {
 		this.personaje = personaje;
+	}
+
+	public Carta[] getCartas() {
+		return cartas;
+	}
+
+	public void setCartas(Carta[] cartas) {
+		this.cartas = cartas;
 	}
 
 	public int getIdUltimaCarta() {
@@ -121,10 +131,10 @@ public class Partida {
 	@Override
 	public String toString() {
 		return "Partida [ganador=" + ganador + ", jugadores=" + Arrays.toString(jugadores) + ", rol="
-				+ Arrays.toString(rol) + ", personaje=" + Arrays.toString(personaje) + ", idUltimaCarta="
-				+ idUltimaCarta + ", maxBang=" + maxBang + ", maxFallaste=" + maxFallaste + ", numRonda=" + numRonda
-				+ ", turnoJugador=" + turnoJugador + ", finPartida=" + finPartida + "]";
+				+ Arrays.toString(rol) + ", personaje=" + Arrays.toString(personaje) + ", cartas="
+				+ Arrays.toString(cartas) + ", idUltimaCarta=" + idUltimaCarta + ", maxBang=" + maxBang
+				+ ", maxFallaste=" + maxFallaste + ", numRonda=" + numRonda + ", turnoJugador=" + turnoJugador
+				+ ", finPartida=" + finPartida + "]";
 	}
-	
 	
 }
