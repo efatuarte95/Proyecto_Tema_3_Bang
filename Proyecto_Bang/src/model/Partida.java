@@ -28,7 +28,7 @@ public class Partida {
 		this.rol = rol;
 		this.personaje = personaje;
 		this.cartas = cartas;
-		this.idx_Ultima_Carta = 0;
+		this.idx_Ultima_Carta = -1;
 		this.maxBang = 50;
 		this.maxFallaste = 50;
 		this.numRonda = 1;

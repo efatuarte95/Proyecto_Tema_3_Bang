@@ -14,7 +14,6 @@ public class CrudJugador {
 	BDPartida bdp = new BDPartida();
 	BDPersonajes bdpj = new BDPersonajes();
 	BDCartas bdc = new BDCartas();
-	Partida p = new Partida();
 
 	private Carta cartas[];
 
@@ -32,7 +31,7 @@ public class CrudJugador {
 	}
 	
 	
-	public int asignarRol(int idx_jugador) {
+	public int asignarRol(Partida p, int idx_jugador) {
 		int desde = 0, hasta = bdp.getRol().length-1, aleatorio=0;
 		boolean generado = true;
 		Random r;
@@ -48,8 +47,8 @@ public class CrudJugador {
 		return aleatorio;
 	}
 	
-	public int asignarPersonaje(int idx_jugador) {
-		int desde = 0, hasta = bdpj.getPersonajes().length, aleatorio=0;
+	public int asignarPersonaje(Partida p, int idx_jugador) {
+		int desde = 0, hasta = bdpj.getPersonajes().length-1, aleatorio=0;
 		boolean generado = true;
 		Random r;
 		while (generado) {
