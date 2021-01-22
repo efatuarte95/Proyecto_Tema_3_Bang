@@ -3,29 +3,30 @@ package model;
 public class Carta {
 
 	// ATRIBUTOS
-	private int idCarta;
+	private int idx_Carta;
 	private String nombre;
-	private int idTipoCarta;
+	private int idx_Tipo_Carta;
 	private int estado;
 	private String descripcion;
-	private int idJugador;
+	private int idx_Jugador;
 	
 	// CONSTRUCTOR
-	public Carta(int idCarta, String nombre, int idTipoCarta, int estado, String descripcion) {
-		this.idCarta = idCarta;
+	public Carta(int idx_Carta, String nombre, int idx_Tipo_Carta, int estado, String descripcion) {
+		this.idx_Carta = idx_Carta;
 		this.nombre = nombre;
-		this.idTipoCarta = idTipoCarta;
+		this.idx_Tipo_Carta = idx_Tipo_Carta;
 		this.estado = estado;
 		this.descripcion = descripcion;
+		this.idx_Jugador = -1;
 	}
 
 	// GETTERS & SETTERS
-	public int getIdCarta() {
-		return idCarta;
+	public int getidx_Carta() {
+		return idx_Carta;
 	}
 
-	public void setIdCarta(int idCarta) {
-		this.idCarta = idCarta;
+	public void setidx_Carta(int idx_Carta) {
+		this.idx_Carta = idx_Carta;
 	}
 
 	public String getNombre() {
@@ -36,12 +37,12 @@ public class Carta {
 		this.nombre = nombre;
 	}
 
-	public int getIdTipoCarta() {
-		return idTipoCarta;
+	public int getidx_Tipo_Carta() {
+		return idx_Tipo_Carta;
 	}
 
-	public void setIdTipoCarta(int idTipoCarta) {
-		this.idTipoCarta = idTipoCarta;
+	public void setidx_Tipo_Carta(int idx_Tipo_Carta) {
+		this.idx_Tipo_Carta = idx_Tipo_Carta;
 	}
 
 	public int getEstado() {
@@ -60,19 +61,19 @@ public class Carta {
 		this.descripcion = descripcion;
 	}
 
-	public int getIdJugador() {
-		return idJugador;
+	public int getidx_Jugador() {
+		return idx_Jugador;
 	}
 
-	public void setIdJugador(int idJugador) {
-		this.idJugador = idJugador;
+	public void setidx_Jugador(int idx_Jugador) {
+		this.idx_Jugador = idx_Jugador;
 	}
 
 	// MÉTODOS
 	@Override
 	public String toString() {
-		return "Carta [idCarta=" + idCarta + ", nombre=" + nombre + ", idTipoCarta=" + idTipoCarta + ", estado="
-				+ estado + ", descripcion=" + descripcion + ", idJugador=" + idJugador + "]";
+		return "Carta [idx_Carta=" + idx_Carta + ", nombre=" + nombre + ", idx_Tipo_Carta=" + idx_Tipo_Carta + ", estado="
+				+ estado + ", descripcion=" + descripcion + ", idx_Jugador=" + idx_Jugador + "]";
 	}	
 	
 }

@@ -14,4 +14,8 @@ public class CrudCarta {
 	public CrudCarta(Carta [] mazo) {
 		this.mazo=mazo;
 	}
+	
+	public void agregarCarta(Carta c, int idx_ultima_carta) {
+		mazo[idx_ultima_carta]=c;
+	}
 }

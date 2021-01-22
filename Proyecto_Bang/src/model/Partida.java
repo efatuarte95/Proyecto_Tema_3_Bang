@@ -2,8 +2,6 @@ package model;
 
 import java.util.Arrays;
 
-import datos.BDPartida;
-
 public class Partida {
 
 	// ATRIBUTOS
@@ -12,7 +10,7 @@ public class Partida {
 	private String rol[];
 	private Personaje personaje[];
 	private Carta cartas[];
-	private int idUltimaCarta;
+	private int idx_Ultima_Carta;
 	private int maxBang;
 	private int maxFallaste;
 	private int numRonda;
@@ -24,19 +22,18 @@ public class Partida {
 	
 	public Partida(String rol[]) {};
 	
-	public Partida(int ganador, Jugador[] jugadores, String[] rol, Personaje[] personaje, Carta[] cartas,
-			int idUltimaCarta, int maxBang, int maxFallaste, int numRonda, int turnoJugador, boolean finPartida) {
+	public Partida(int ganador, Jugador[] jugadores, String[] rol, Personaje[] personaje, Carta[] cartas) {
 		this.ganador = ganador;
 		this.jugadores = jugadores;
 		this.rol = rol;
 		this.personaje = personaje;
 		this.cartas = cartas;
-		this.idUltimaCarta = idUltimaCarta;
-		this.maxBang = maxBang;
-		this.maxFallaste = maxFallaste;
-		this.numRonda = numRonda;
-		this.turnoJugador = turnoJugador;
-		this.finPartida = finPartida;
+		this.idx_Ultima_Carta = 0;
+		this.maxBang = 50;
+		this.maxFallaste = 50;
+		this.numRonda = 1;
+		this.turnoJugador = 0;
+		this.finPartida = false;
 	}
 
 	// GETTERS & SETTERS 
@@ -80,12 +77,12 @@ public class Partida {
 		this.cartas = cartas;
 	}
 
-	public int getIdUltimaCarta() {
-		return idUltimaCarta;
+	public int getidx_Ultima_Carta() {
+		return idx_Ultima_Carta;
 	}
 
-	public void setIdUltimaCarta(int idUltimaCarta) {
-		this.idUltimaCarta = idUltimaCarta;
+	public void setidx_Ultima_Carta(int idx_Ultima_Carta) {
+		this.idx_Ultima_Carta = idx_Ultima_Carta;
 	}
 
 	public int getMaxBang() {
@@ -132,7 +129,7 @@ public class Partida {
 	public String toString() {
 		return "Partida [ganador=" + ganador + ", jugadores=" + Arrays.toString(jugadores) + ", rol="
 				+ Arrays.toString(rol) + ", personaje=" + Arrays.toString(personaje) + ", cartas="
-				+ Arrays.toString(cartas) + ", idUltimaCarta=" + idUltimaCarta + ", maxBang=" + maxBang
+				+ Arrays.toString(cartas) + ", idx_Ultima_Carta=" + idx_Ultima_Carta + ", maxBang=" + maxBang
 				+ ", maxFallaste=" + maxFallaste + ", numRonda=" + numRonda + ", turnoJugador=" + turnoJugador
 				+ ", finPartida=" + finPartida + "]";
 	}

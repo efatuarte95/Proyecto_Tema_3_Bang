@@ -65,7 +65,7 @@ public class CrudJugador {
 	}
 	
 	public int asignarCartas() {
-		int desde = 0, hasta = bdc.getCartas().length, aleatorio=0;
+		int desde = 0, hasta = bdc.getCartas().length-1, aleatorio=0;
 		Random r;
 		r = new Random(System.nanoTime());
 		aleatorio = r.nextInt(hasta-desde+1)+desde;

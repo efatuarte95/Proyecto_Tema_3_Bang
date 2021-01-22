@@ -5,6 +5,7 @@ import model.Personaje;
 public class ImprimirJugador {
 
 	public void mostrarAcciones() {
+		System.out.println("¿Qué quieres hacer?");
 		System.out.println("[1] - Jugar una carta.");
 		System.out.println("[2] - Ver mi personaje.");
 		System.out.println("[3] - Ver mis cartas.");
