@@ -44,18 +44,21 @@ public class ImprimirPartida {
 	}
 	
 	public void mostrarMenuPartida() {
-		System.out.println("[1] - Iniciar Nueva Partida");
+		System.out.println("¿Qué desea hacer?");
+		System.out.println("[1] - Iniciar nueva partida");
 		System.out.println("[0] - Salir.");
 	}
 	
 	public void mostrarMenuAgregarJugador() {
+		System.out.println("¿Qué desea hacer?");
 		System.out.println("[1] - Añadir nuevo jugador");
 		System.out.println("[0] - Salir.");
 	}
 	
 	public void mostrarComenzarPartida() {
+		System.out.println("¿Qué desea hacer?");
 		System.out.println("[1] - Comenzar Partida");
-		System.out.println("[0] - Volver al menú de creación.");
+		System.out.println("[0] - Volver al menú de creación de jugadores.");
 	}
 
 }
