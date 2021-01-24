@@ -4,28 +4,28 @@ import model.Carta;
 
 public class BDCartas {
 
-	// int idCarta, String nombre, int idTipoCarta, int estado, String descripcion, int idJugador
+	// int idCarta, String nombre, int idTipoCarta, int estado, int alcance, String descripcion, int idJugador
 	// Tipo 0 = Bang; Tipo 1 = Fallaste; Tipo 2 = Acción; Tipo 3 = Arma
 	// Estado 0 = "En mazo", Estado 1 = "En mano", Estado 2 = "En juego"
 	
-	private Carta c0 = new Carta (0, "Salón", 2, 0, "Recupera 1 de vida a todos los jugadores.");
-	private Carta c1 = new Carta (1, "Cerveza", 2, 0, "Recupera 1 de vida.");
-	private Carta c2 = new Carta (2, "Almacén", 2, 0, "Todos los jugadores roban 1 carta.");
-	private Carta c3 = new Carta (3, "Diligencia", 2, 0, "Roba 2 cartas.");
-	private Carta c4 = new Carta (4, "Wells Fargo", 2, 0, "Roba 3 cartas.");
-	private Carta c5 = new Carta (5, "Ametralladora Gatling", 2, 0, "Dispara un BANG a todos los jugadores.");
-	private Carta c6 = new Carta (6, "¡Indios!", 2, 0, "Utiliza un BANG o pierde 1 de vida.");
-	private Carta c7 = new Carta (7, "Duelo", 2, 0, "Utilízalo para iniciar un duelo con alguien, por cada BANG que saques él tendrá que sacar un FALLASTE, el que pierda pierde 1 de vida.");
-	private Carta c8 = new Carta (8, "Colt 45", 3, 0, "Tu alcance cambia a 1.");
-	private Carta c9 = new Carta (9, "Revolver Carabine", 3, 0, "Tu alcance cambia a 4."); 
-	private Carta c10 = new Carta (10, "Schofield", 3, 0, "Tu alcance cambia a 2.");
-	private Carta c11 = new Carta (11, "Winchester", 3, 0, "Tu alcance cambia a 5.");
-	private Carta c12 = new Carta (12, "Remington", 3, 0, "Tu alcance cambia a 3.");
-	private Carta c13 = new Carta (13, "Volcanic", 3, 0, "Tu alcance cambia a 1, puedes tirar todos los BANG que quieras.");
-	private Carta c14 = new Carta (14, "Mira Telescópica", 3, 0, "El alcance al que puedes atacar a los demás se reduce en 1.");
-	private Carta c15 = new Carta (15, "Mustang", 3, 0, "Aumenta el alcance al que te pueden atacar en 1.");
-	private Carta c16 = new Carta (16, "¡BANG!", 0, 0, "Dispara a un enemigo.");
-	private Carta c17 = new Carta (17, "Fallaste", 1, 0, "Esquiva el disparo de un enemigo.");
+	private Carta c0 = new Carta (0, "Salón", 2, 0, 0, "Recupera 1 de vida a todos los jugadores.", -1);
+	private Carta c1 = new Carta (1, "Cerveza", 2, 0, 0, "Recupera 1 de vida.", -1);
+	private Carta c2 = new Carta (2, "Almacén", 2, 0, 0, "Todos los jugadores roban 1 carta.", -1);
+	private Carta c3 = new Carta (3, "Diligencia", 2, 0, 0, "Roba 2 cartas.", -1);
+	private Carta c4 = new Carta (4, "Wells Fargo", 2, 0, 0, "Roba 3 cartas.", -1);
+	private Carta c5 = new Carta (5, "Ametralladora Gatling", 2, 0, 0, "Dispara un BANG a todos los jugadores.", -1);
+	private Carta c6 = new Carta (6, "¡Indios!", 2, 0, 0, "Utiliza un BANG o pierde 1 de vida.", -1);
+	private Carta c7 = new Carta (7, "Duelo", 2, 0, 0, "Utilízalo para iniciar un duelo con alguien, por cada BANG que saques él tendrá que sacar un FALLASTE, el que pierda pierde 1 de vida.", -1);
+	private Carta c8 = new Carta (8, "Colt 45", 3, 0, 0, "Tu alcance cambia a 1.", -1);
+	private Carta c9 = new Carta (9, "Revolver Carabine", 3, 0, 4, "Tu alcance cambia a 4.", -1); 
+	private Carta c10 = new Carta (10, "Schofield", 3, 0, 2, "Tu alcance cambia a 2.", -1);
+	private Carta c11 = new Carta (11, "Winchester", 3, 0, 5, "Tu alcance cambia a 5.", -1);
+	private Carta c12 = new Carta (12, "Remington", 3, 0, 3, "Tu alcance cambia a 3.", -1);
+	private Carta c13 = new Carta (13, "Volcanic", 3, 0, 1, "Tu alcance cambia a 1, puedes tirar todos los BANG que quieras.", -1);
+	private Carta c14 = new Carta (14, "Mira Telescópica", 3, 0, 1, "Modifica la distancia respecto al resto de jugadores en 1.", -1);
+	private Carta c15 = new Carta (15, "Mustang", 3, 0, 1, "Aumenta la distancia a la que te ven el resto de jugadores en 1.", -1);
+	private Carta c16 = new Carta (16, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
+	private Carta c17 = new Carta (17, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
 	
 	private Carta cartas[] = {c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17};
 

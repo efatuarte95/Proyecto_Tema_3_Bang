@@ -37,7 +37,7 @@ public class Principal {
 		
 		// Variables
 		Jugador jugadores[];
-		int enMazo = 0, enMano = 1, enJuego = 2, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
+		int enMazo = 0, enMano = 1, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
 		String nombre;
 		
 		// Menú para empezar partida
@@ -47,7 +47,7 @@ public class Principal {
 			// Si selecciona 1 entramos en la partida, si selecciona 0 salimos
 			switch (opPartida) {
 				case 1:
-					Partida p = new Partida(0, null, bdp.getRol(), bdpj.getPersonajes(), bdc.getCartas()); // Creo la partida
+					Partida p = new Partida(0, null, bdp.getRol(), bdpj.getPersonajes(), bdc.getCartas(), maxJugadores); // Creo la partida
 					jugadores = new Jugador [maxJugadores]; // Creo el array de jugadores
 					p.setJugadores(jugadores); // Seteo el array de jugadores a la partida
 
@@ -69,7 +69,7 @@ public class Principal {
 								System.out.println("Vida del personaje: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getVida());
 								System.out.println("ID del jugador....: " + i);
 								*/
-								jugadores[jug_Creados].robarCartas(jugadores[jug_Creados], p, jug_Creados, jugadores[jug_Creados].getMaxVidas());
+								jugadores[jug_Creados].robarCartas(p, jug_Creados, jugadores[jug_Creados].getMaxVidas());
 								jug_Creados++;
 							}
 							// Cuando estén todos los jugadores creados, podremos comenzar la partida.
@@ -91,6 +91,21 @@ public class Principal {
 													System.out.println("¿Qué carta deseas jugar?");
 													ij.mostrarCartasNombre(jugadores[i]);
 													opJugar = Leer.datoInt();
+													if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_bang || jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_accion)
+														jugadores[i].getCartas()[opJugar - 1].ejecutarAccion(p);
+													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_arma) {
+														// Recorremos el array de cartas para comprobar si tenemos otro arma en juego y
+														// pasarla al mazo.
+														for (int j = 0; j < jugadores[i].getCartas().length; j++) {
+															if(jugadores[i].getCartas()[j].getEstado() == enJuego) {
+																jugadores[i].getCartas()[j].setEstado(enMazo);	
+																j = jugadores[i].getCartas().length;
+															}
+														}
+														jugadores[i].getCartas()[opJugar - 1].setEstado(enJuego);
+													}
+													else 
+														System.out.println("No puedes jugar una carta tipo Fallaste.");
 													break;
 												case 2:
 													ij.mostrarPersonaje(bdpj.getPersonajes()[jugadores[i].getIdx_Personaje()]);

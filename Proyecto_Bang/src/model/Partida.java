@@ -16,13 +16,14 @@ public class Partida {
 	private int numRonda;
 	private int turnoJugador;
 	private boolean finPartida;
+	private int maximoJugadores;
 	
 	// CONSTRUCTOR
 	public Partida() {};
 	
 	public Partida(String rol[]) {};
 	
-	public Partida(int ganador, Jugador[] jugadores, String[] rol, Personaje[] personaje, Carta[] cartas) {
+	public Partida(int ganador, Jugador[] jugadores, String[] rol, Personaje[] personaje, Carta[] cartas, int maximoJugadores) {
 		this.ganador = ganador;
 		this.jugadores = jugadores;
 		this.rol = rol;
@@ -34,6 +35,7 @@ public class Partida {
 		this.numRonda = 1;
 		this.turnoJugador = 0;
 		this.finPartida = false;
+		this.maximoJugadores = maximoJugadores;
 	}
 
 	// GETTERS & SETTERS 
@@ -125,13 +127,17 @@ public class Partida {
 		this.finPartida = finPartida;
 	}
 
+	public int getMaximoJugadores() {
+		return maximoJugadores;
+	}
+
 	@Override
 	public String toString() {
 		return "Partida [ganador=" + ganador + ", jugadores=" + Arrays.toString(jugadores) + ", rol="
 				+ Arrays.toString(rol) + ", personaje=" + Arrays.toString(personaje) + ", cartas="
 				+ Arrays.toString(cartas) + ", idx_Ultima_Carta=" + idx_Ultima_Carta + ", maxBang=" + maxBang
 				+ ", maxFallaste=" + maxFallaste + ", numRonda=" + numRonda + ", turnoJugador=" + turnoJugador
-				+ ", finPartida=" + finPartida + "]";
-	}
+				+ ", finPartida=" + finPartida + ", maximoJugadores=" + maximoJugadores + "]";
+	}	
 	
 }

@@ -24,6 +24,7 @@ public class CrudPartida {
 	public void agregarJugador(Partida p, String nombre, Jugador j, int idx_jugador) {
 		int maxCartasJugador = 25;
 		jugadores[idx_jugador]=j;
+		jugadores[idx_jugador].setIdx_jugador_propio(idx_jugador);
 		jugadores[idx_jugador].setNombre(nombre);
 		jugadores[idx_jugador].setIdx_Rol(cj.asignarRol(p, idx_jugador));
 		jugadores[idx_jugador].setIdx_Personaje(cj.asignarPersonaje(p, idx_jugador));

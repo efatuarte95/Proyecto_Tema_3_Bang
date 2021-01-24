@@ -4,13 +4,16 @@ import java.util.Arrays;
 
 import crud.CrudCarta;
 import crud.CrudJugador;
+import datos.BDPersonajes;
 
 public class Jugador {
 
 	CrudJugador cj = new CrudJugador();
 	CrudCarta cc = new CrudCarta();
+	BDPersonajes bdpj = new BDPersonajes();
 	
 	// ATRIBUTOS
+	private int idx_jugador_propio;
 	private String nombre;
 	private int vidaActual;
 	private int maxVidas;
@@ -22,8 +25,9 @@ public class Jugador {
 	// CONSTRUCTOR
 	public Jugador() {};
 	
-	public Jugador(String nombre, int vidaActual, int maxVidas, int idx_Rol, int idx_Personaje,
+	public Jugador(int idx_jugador_propio, String nombre, int vidaActual, int maxVidas, int idx_Rol, int idx_Personaje,
 			Carta[] cartas, boolean volcanicActiva) {
+		this.idx_jugador_propio = idx_jugador_propio;
 		this.nombre = nombre;
 		this.vidaActual = vidaActual;
 		this.maxVidas = maxVidas;
@@ -34,6 +38,14 @@ public class Jugador {
 	}
 
 	// GETTERS & SETTERS
+	public int getIdx_jugador_propio() {
+		return idx_jugador_propio;
+	}
+
+	public void setIdx_jugador_propio(int idx_jugador_propio) {
+		this.idx_jugador_propio = idx_jugador_propio;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -91,18 +103,18 @@ public class Jugador {
 	}
 
 	// MÉTODOS
-	
 	@Override
 	public String toString() {
-		return "Jugador [nombre=" + nombre + ", vidaActual=" + vidaActual + ", idx_Rol=" + idx_Rol + ", idx_Personaje="
-				+ idx_Personaje + ", Cartas=" + Arrays.toString(cartas) + ", volcanicActiva=" + volcanicActiva + "]";
+		return "Jugador [idx_jugador_propio=" + idx_jugador_propio + ", nombre=" + nombre + ", vidaActual=" + vidaActual
+				+ ", maxVidas=" + maxVidas + ", idx_Rol=" + idx_Rol + ", idx_Personaje=" + idx_Personaje + ", cartas="
+				+ Arrays.toString(cartas) + ", volcanicActiva=" + volcanicActiva + "]";
 	}
 	
 	public int contarBang(Jugador jugadores[]) {
-		int contadorBang = 0;
+		int contadorBang = 0, enMano = 1;
 		for (int i = 0; i < jugadores.length; i++) {
 			for (int j = 0; j < jugadores[i].getCartas().length; j++) {
-				if (jugadores[i].getCartas()[j].getidx_Tipo_Carta() == 0)
+				if (jugadores[i].getCartas()[j].getEstado() == enMano && jugadores[i].getCartas()[j].getTipo_Carta() == 0)
 					contadorBang++;
 			}
 		}
@@ -110,10 +122,10 @@ public class Jugador {
 	}
 
 	public int contarFallaste(Jugador jugadores[]) {
-		int contadorFallaste = 0;
+		int contadorFallaste = 0, enMano = 1;
 		for (int i = 0; i < jugadores.length; i++) {
 			for (int j = 0; j < jugadores[i].getCartas().length; j++) {
-				if (jugadores[i].getCartas()[j].getidx_Tipo_Carta() == 1)
+				if (jugadores[i].getCartas()[j].getEstado() == enMano && jugadores[i].getCartas()[j].getTipo_Carta() == 1)
 					contadorFallaste++;
 			}
 		}
@@ -146,23 +158,53 @@ public class Jugador {
 		 * a descartar(idCarta, false) si es un BANG (Tipo = 0), un Fallaste (Tipo = 1) o
 		 * una carta de acción (Tipo = 2)*/
 	}
+	public int calcularMiAlcance() {
+		int enJuego = 2;
+		int alcance = bdpj.getPersonajes()[idx_Personaje].getAlcance();
+		for (int i = 0; i < this.cartas.length; i++) {
+			if (cartas[i].getEstado()==enJuego) {
+				alcance = cartas[i].getAlcance();
+				i = cartas.length;
+			}
+		}
+		return alcance;
+	}
 	
-	public int calcularDistanciaJugador(int idJugador) {
-		int distancia = 1;
+	public int calcularDistanciaJugador(Partida p, Jugador j) {
+		int distancia = 0, enJuego = 2, miraTelescopica = 14, mustang = 15, num_Jugadores_Comprobar, indiceJugador;
+		
+		if (idx_jugador_propio < j.getIdx_jugador_propio())
+			num_Jugadores_Comprobar = j.getIdx_jugador_propio() - idx_jugador_propio;
+		else 
+			num_Jugadores_Comprobar = (j.getIdx_jugador_propio() - idx_jugador_propio) + p.getMaximoJugadores();
+		indiceJugador = idx_jugador_propio;
+		for (int i = 1; i <= num_Jugadores_Comprobar; i++) {
+			indiceJugador++;
+			if(indiceJugador == p.getMaximoJugadores()) 
+				indiceJugador = 0;
+			if (p.getJugadores()[indiceJugador].estarVivo())
+				distancia++;
+		}
+		// Comprobar si yo tengo mira telescopica
+		for (int i = 0; i < this.cartas.length; i++) {
+			if(this.cartas[i].getEstado()==enJuego && this.cartas[i].getIdx_Carta()==miraTelescopica) {
+				distancia--;
+				i = this.cartas.length;
+			}
+		}
+		
+		// Comprobar si el otro jugador tiene mustang
+		for (int i = 0; i < j.getCartas().length; i++) {
+			if(j.getCartas()[i].getEstado()==enJuego && j.getCartas()[i].getIdx_Carta()==mustang) {
+				distancia++;
+				i = j.getCartas().length;
+			}
+		}
 		return distancia;
 	}
 	
-	public boolean estarAlAlcance(int idJugador) {
-		int alcance = 1;
-		/* Aquí recorremos el array de cartas buscando si tiene un arma en juego
-		 * y si la tiene, el alcance se actualiza con el del arma */
-		if (calcularDistanciaJugador(idJugador)<=alcance)
-			return true;
-		return false;
-	}
-	
 	public void recuperarVida () {
-		if (vidaActual < maxVidas)
+		if (vidaActual > 0 && vidaActual < maxVidas) // Solo recuperan vida si está vivo
 			vidaActual++;
 	}
 	
@@ -171,19 +213,70 @@ public class Jugador {
 			vidaActual--;
 	}
 	
-	public void robarCartas(Jugador j, Partida p, int idx_Jugador, int num_Cartas_Robadas) {
+	public void robarCartas(Partida p, int idx_Jugador, int num_Cartas_Robadas) {
 		int idx_Ultima_Carta = p.getidx_Ultima_Carta();
 		for (int i = 0; i<num_Cartas_Robadas; i++) {
 			Carta c = cc.crearCarta();
 			if(asignarCarta(c)) {
-				c.setidx_Jugador(idx_Jugador);
+				c.setIdx_Jugador(idx_Jugador);
 				idx_Ultima_Carta++;
 				p.setidx_Ultima_Carta(idx_Ultima_Carta);
 				cc.agregarCarta(c, idx_Ultima_Carta);
 			}
 			else {
-				System.out.println(j.getNombre() + " ha alcanzado el límite de cartas.");
+				System.out.println(this.getNombre() + " ha alcanzado el límite de cartas.");
 			}
 		}
+	}
+	
+	public boolean perderBang() {
+		boolean tieneBang = false;
+		int enMano = 1, enMazo = 0, tipo_bang = 0;
+		for (int i = 0; i < this.cartas.length; i++) {
+			if (cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_bang) {
+				cartas[i].setEstado(enMazo);
+				tieneBang = true;
+				i = this.cartas.length; // Salimos del for
+			}
+		}
+		if (tieneBang)
+			System.out.println(getNombre() + " ha perdido un BANG.");
+		else {
+			this.perderVida();
+			if (this.vidaActual > 0)
+				System.out.println(getNombre() + " ha perdido una vida.");
+			else
+				System.out.println(getNombre() + " ha muerto.");
+		}
+		return tieneBang;
+	}
+	
+	public boolean perderFallaste() {
+		boolean tieneFallaste = false;
+		int enMano = 1, enMazo = 0, tipo_fallaste = 1;
+		for (int i = 0; i < this.cartas.length; i++) {
+			if (cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_fallaste) {
+				cartas[i].setEstado(enMazo);
+				tieneFallaste = true;
+				i = this.cartas.length; // Salimos del for
+			}
+		}
+		if (tieneFallaste)
+			System.out.println(getNombre() + " ha perdido un Fallaste.");
+		else {
+			this.perderVida();
+			if (this.vidaActual > 0)
+				System.out.println(getNombre() + " ha perdido una vida.");
+			else
+				System.out.println(getNombre() + " ha muerto.");
+		}
+		return tieneFallaste;
+	}
+	
+	public boolean estarVivo() {
+		if (this.vidaActual>0)
+			return true;
+		else 
+			return false;
 	}
 }
