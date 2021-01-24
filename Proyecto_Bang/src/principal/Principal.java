@@ -37,7 +37,7 @@ public class Principal {
 		
 		// Variables
 		Jugador jugadores[];
-		int enMazo = 0, enMano = 1, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
+		int enMazo = 0, enMano = 1, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, volcanic = 13, num_Bang_Lanzados, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
 		String nombre;
 		
 		// Menú para empezar partida
@@ -81,7 +81,8 @@ public class Principal {
 									ip.mostrarInstrucciones();		
 									ip.imprimirEstadoPartida(p);
 									do {
-										for (int i = 0; i < jugadores.length; i++) {	
+										for (int i = 0; i < jugadores.length; i++) {
+											num_Bang_Lanzados = 0;
 											do {
 												ij.mostrarAcciones();
 												opAccion = Leer.datoInt();
@@ -91,18 +92,28 @@ public class Principal {
 													System.out.println("¿Qué carta deseas jugar?");
 													ij.mostrarCartasNombre(jugadores[i]);
 													opJugar = Leer.datoInt();
-													if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_bang || jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_accion)
+													if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_bang)
+														if(num_Bang_Lanzados > 0 && !jugadores[i].isVolcanicActiva())
+															System.out.println("No puedes usar más BANG en esta ronda.");
+														else {
+															num_Bang_Lanzados++;
+															jugadores[i].getCartas()[opJugar - 1].ejecutarAccion(p);
+														}
+													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_accion)
 														jugadores[i].getCartas()[opJugar - 1].ejecutarAccion(p);
 													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_arma) {
 														// Recorremos el array de cartas para comprobar si tenemos otro arma en juego y
 														// pasarla al mazo.
 														for (int j = 0; j < jugadores[i].getCartas().length; j++) {
 															if(jugadores[i].getCartas()[j].getEstado() == enJuego) {
-																jugadores[i].getCartas()[j].setEstado(enMazo);	
+																jugadores[i].getCartas()[j].setEstado(enMazo);
+																jugadores[i].setVolcanicActiva(false);
 																j = jugadores[i].getCartas().length;
 															}
 														}
 														jugadores[i].getCartas()[opJugar - 1].setEstado(enJuego);
+														if(jugadores[i].getCartas()[opJugar - 1].getIdx_Carta()==volcanic)
+															jugadores[i].setVolcanicActiva(true);
 													}
 													else 
 														System.out.println("No puedes jugar una carta tipo Fallaste.");

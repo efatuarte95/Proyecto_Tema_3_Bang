@@ -142,7 +142,7 @@ public class Carta {
 						}
 					}
 		case 16: BANG
-		syso "¿A qué jugador quieres dispara?"
+		syso "¿A qué jugador quieres disparar?"
 					for(i = 0; i<maxJugadores; i++) {
 						if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
 							syso("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
