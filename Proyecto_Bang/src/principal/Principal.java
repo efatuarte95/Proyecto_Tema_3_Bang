@@ -37,8 +37,7 @@ public class Principal {
 		
 		// Variables
 		Jugador jugadores[];
-		Carta cartas[];
-		int idx_Ultima_Carta, enMazo = 0, enMano = 1, enJuego = 2, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
+		int enMazo = 0, enMano = 1, enJuego = 2, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
 		String nombre;
 		
 		// Menú para empezar partida
@@ -51,7 +50,6 @@ public class Principal {
 					Partida p = new Partida(0, null, bdp.getRol(), bdpj.getPersonajes(), bdc.getCartas()); // Creo la partida
 					jugadores = new Jugador [maxJugadores]; // Creo el array de jugadores
 					p.setJugadores(jugadores); // Seteo el array de jugadores a la partida
-					idx_Ultima_Carta = p.getidx_Ultima_Carta();
 
 					ip.mostrarMenuAgregarJugador();
 					opJugador = Leer.datoInt();
@@ -65,23 +63,13 @@ public class Principal {
 								nombre = Leer.dato();
 								jugadores[jug_Creados] = new Jugador();
 								cp.agregarJugador(p, nombre, jugadores[jug_Creados], jug_Creados);
-								cartas = new Carta[p.getPersonaje()[jugadores[jug_Creados].getIdx_Personaje()].getVida()];
+								System.out.println(p);
 								/*
 								System.out.println("Personaje Asignado: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getNombre());
 								System.out.println("Vida del personaje: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getVida());
 								System.out.println("ID del jugador....: " + i);
 								*/
-								for (int i = 0; i < p.getPersonaje()[jugadores[jug_Creados].getIdx_Personaje()].getVida(); i++) {
-									cartas[i] = bdc.getCartas()[cj.asignarCartas()];
-									cartas[i].setidx_Jugador(jug_Creados);
-									// System.out.println("Nombre de la carta: " + cartas[j].getNombre());
-									// System.out.println("ID del jugador....: " + cartas[j].getidx_Jugador());
-									cartas[i].setEstado(enMano);
-									idx_Ultima_Carta++;
-									cc.agregarCarta(cartas[i], idx_Ultima_Carta);
-									p.setidx_Ultima_Carta(idx_Ultima_Carta);
-								}
-								jugadores[jug_Creados].setCartas(cartas);
+								jugadores[jug_Creados].robarCartas(jugadores[jug_Creados], p, jug_Creados, jugadores[jug_Creados].getMaxVidas());
 								jug_Creados++;
 							}
 							// Cuando estén todos los jugadores creados, podremos comenzar la partida.

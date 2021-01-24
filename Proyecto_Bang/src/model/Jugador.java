@@ -1,30 +1,35 @@
 package model;
 
 import java.util.Arrays;
-import java.util.Random;
 
-import datos.BDPartida;
+import crud.CrudCarta;
+import crud.CrudJugador;
 
 public class Jugador {
 
+	CrudJugador cj = new CrudJugador();
+	CrudCarta cc = new CrudCarta();
+	
 	// ATRIBUTOS
 	private String nombre;
 	private int vidaActual;
+	private int maxVidas;
 	private int idx_Rol;
 	private int idx_Personaje;
-	private Carta Cartas[];
+	private Carta cartas[];
 	private boolean volcanicActiva;
 	
 	// CONSTRUCTOR
 	public Jugador() {};
-
-	public Jugador(String nombre, int vidaActual, int idx_Rol, int idx_Personaje, Carta[] cartas,
-			boolean volcanicActiva) {
+	
+	public Jugador(String nombre, int vidaActual, int maxVidas, int idx_Rol, int idx_Personaje,
+			Carta[] cartas, boolean volcanicActiva) {
 		this.nombre = nombre;
 		this.vidaActual = vidaActual;
+		this.maxVidas = maxVidas;
 		this.idx_Rol = idx_Rol;
 		this.idx_Personaje = idx_Personaje;
-		Cartas = cartas;
+		this.cartas = cartas;
 		this.volcanicActiva = volcanicActiva;
 	}
 
@@ -45,38 +50,36 @@ public class Jugador {
 		this.vidaActual = vidaActual;
 	}
 
-	
+	public int getMaxVidas() {
+		return maxVidas;
+	}
+
+	public void setMaxVidas(int maxVidas) {
+		this.maxVidas = maxVidas;
+	}
 
 	public int getIdx_Rol() {
 		return idx_Rol;
 	}
 
-
-
 	public void setIdx_Rol(int idx_Rol) {
 		this.idx_Rol = idx_Rol;
 	}
-
-
 
 	public int getIdx_Personaje() {
 		return idx_Personaje;
 	}
 
-
-
 	public void setIdx_Personaje(int idx_Personaje) {
 		this.idx_Personaje = idx_Personaje;
 	}
 
-
-
 	public Carta[] getCartas() {
-		return Cartas;
+		return cartas;
 	}
 
 	public void setCartas(Carta[] cartas) {
-		Cartas = cartas;
+		this.cartas = cartas;
 	}
 
 	public boolean isVolcanicActiva() {
@@ -88,39 +91,54 @@ public class Jugador {
 	}
 
 	// MÉTODOS
-	public int contarBang() {
-		int contadorBang = 0;
-		// Aquí meteremos la comprobación del tipo de carta (Tipo = 0)
-		return contadorBang;
-	}
 	
 	@Override
 	public String toString() {
 		return "Jugador [nombre=" + nombre + ", vidaActual=" + vidaActual + ", idx_Rol=" + idx_Rol + ", idx_Personaje="
-				+ idx_Personaje + ", Cartas=" + Arrays.toString(Cartas) + ", volcanicActiva=" + volcanicActiva + "]";
+				+ idx_Personaje + ", Cartas=" + Arrays.toString(cartas) + ", volcanicActiva=" + volcanicActiva + "]";
+	}
+	
+	public int contarBang(Jugador jugadores[]) {
+		int contadorBang = 0;
+		for (int i = 0; i < jugadores.length; i++) {
+			for (int j = 0; j < jugadores[i].getCartas().length; j++) {
+				if (jugadores[i].getCartas()[j].getidx_Tipo_Carta() == 0)
+					contadorBang++;
+			}
+		}
+		return contadorBang;
 	}
 
-	public int contarFallaste() {
+	public int contarFallaste(Jugador jugadores[]) {
 		int contadorFallaste = 0;
-		// Aquí meteremos la comprobación del tipo de carta (Tipo = 1)
+		for (int i = 0; i < jugadores.length; i++) {
+			for (int j = 0; j < jugadores[i].getCartas().length; j++) {
+				if (jugadores[i].getCartas()[j].getidx_Tipo_Carta() == 1)
+					contadorFallaste++;
+			}
+		}
 		return contadorFallaste;
 	}
 	
-	public void asignarCarta() {
-		/* En éste método recorremos el array de cartas del jugador buscando la primera que tenga
-		 * el estado = 3 (en mazo), asignándole a la nueva carta dicha posición y modificando su 
-		 * estado a 2 (en mano)*/
-	}
-	
-	public void robarCarta(int numRobos) {
-		for (int i=0; i<numRobos; i++) {
-			asignarCarta();
+	public boolean asignarCarta(Carta c) {
+		int enMazo = 0;
+		boolean asignada = false;
+		for (int i = 0; i < this.cartas.length; i++) {
+			//System.out.println(cartas[i]);
+			if (this.cartas[i] == null || this.cartas[i].getEstado() == enMazo) {
+				this.cartas[i] = c;
+				asignada = true;
+				i=this.cartas.length; // Si se asigna la carta, salimos del for
+			}
 		}
+		return asignada;
 	}
 	
 	public void descartar(int idCarta, boolean enJuego) {
-		/* Éste método sirve para descartar una carta si tenemos más cartas en mano
-		 * que nuestra vida actual. */
+		/* 
+		 * Éste método sirve para descartar una carta si tenemos más cartas en mano
+		 * que nuestra vida actual.
+		 */
 	}
 	
 	public void jugarCarta(int idCarta) {
@@ -141,5 +159,31 @@ public class Jugador {
 		if (calcularDistanciaJugador(idJugador)<=alcance)
 			return true;
 		return false;
+	}
+	
+	public void recuperarVida () {
+		if (vidaActual < maxVidas)
+			vidaActual++;
+	}
+	
+	public void perderVida () {
+		if (vidaActual > 0) 
+			vidaActual--;
+	}
+	
+	public void robarCartas(Jugador j, Partida p, int idx_Jugador, int num_Cartas_Robadas) {
+		int idx_Ultima_Carta = p.getidx_Ultima_Carta();
+		for (int i = 0; i<num_Cartas_Robadas; i++) {
+			Carta c = cc.crearCarta();
+			if(asignarCarta(c)) {
+				c.setidx_Jugador(idx_Jugador);
+				idx_Ultima_Carta++;
+				p.setidx_Ultima_Carta(idx_Ultima_Carta);
+				cc.agregarCarta(c, idx_Ultima_Carta);
+			}
+			else {
+				System.out.println(j.getNombre() + " ha alcanzado el límite de cartas.");
+			}
+		}
 	}
 }

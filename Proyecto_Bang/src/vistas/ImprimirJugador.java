@@ -14,17 +14,22 @@ public class ImprimirJugador {
 		System.out.println("[0] - Pasar turno.");
 	}
 	public void mostrarCartasNombre(Jugador j) {
+		int enMazo = 0;
 		System.out.println("Las cartas que tienes actualmente son:");
 		for (int i = 0; i < j.getCartas().length; i++) {
-			System.out.println("[" + (i+1) + "] - " + j.getCartas()[i].getNombre());
+			if(j.getCartas()[i] != null && j.getCartas()[i].getEstado() != enMazo)
+				System.out.println("[" + (i+1) + "] - " + j.getCartas()[i].getNombre());
 		}
 	}
 	
 	public void mostrarCartas(Jugador j) {
+		int enMazo = 0;
 		System.out.println("Las cartas que tienes actualmente son:");
 		for (int i = 0; i < j.getCartas().length; i++) {
-			System.out.println("[" + (i+1) + "] - " + j.getCartas()[i].getNombre());
-			System.out.println("Descripción: " + j.getCartas()[i].getDescripcion() + "\n");
+			if(j.getCartas()[i] != null && j.getCartas()[i].getEstado() != enMazo) {
+				System.out.println("[" + (i+1) + "] - " + j.getCartas()[i].getNombre());
+				System.out.println("Descripción: " + j.getCartas()[i].getDescripcion() + "\n");
+			}
 		}
 	}
 	

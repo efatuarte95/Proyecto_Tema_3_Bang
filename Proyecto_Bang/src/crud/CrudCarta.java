@@ -1,8 +1,12 @@
 package crud;
 
+import java.util.Random;
+
+import datos.BDCartas;
 import model.Carta;
 
 public class CrudCarta {
+	BDCartas bdc = new BDCartas();
 
 	private Carta mazo [];
 	
@@ -17,5 +21,17 @@ public class CrudCarta {
 	
 	public void agregarCarta(Carta c, int idx_ultima_carta) {
 		mazo[idx_ultima_carta]=c;
+	}
+	
+	public Carta crearCarta() {
+		int enMano = 1;
+		Carta c = new Carta();
+		int desde = 0, hasta = bdc.getCartas().length-1, aleatorio=0;
+		Random r;
+		r = new Random(System.nanoTime());
+		aleatorio = r.nextInt(hasta-desde+1)+desde;
+		c = bdc.getCartas()[aleatorio];
+		c.setEstado(enMano);
+		return c;
 	}
 }
