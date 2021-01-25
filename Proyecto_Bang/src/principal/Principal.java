@@ -32,7 +32,9 @@ public class Principal {
 		
 		// Variables
 		Jugador jugadores[];
-		int enMazo = 0, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, volcanic = 13, num_Bang_Lanzados, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
+		int enMazo = 0, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, volcanic = 13, num_Bang_Lanzados, 
+				opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0,
+				willy = 7;
 		String nombre;
 		
 		// Menú para empezar partida
@@ -59,6 +61,11 @@ public class Principal {
 								System.out.println("Bienvenido al Lejano Oeste " + nombre + ". ¿Qué aventuras te deparará el futuro?\n");
 								jugadores[jug_Creados] = new Jugador();
 								cp.agregarJugador(p, nombre, jugadores[jug_Creados], jug_Creados);
+								
+								// Si el personaje es Willy el niño, activamos el atributo isVolcanic
+								if(jugadores[jug_Creados].getIdx_Personaje() == willy)
+									jugadores[jug_Creados].setVolcanicActiva(true);
+								
 								/*
 								System.out.println("Personaje Asignado: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getNombre());
 								System.out.println("Vida del personaje: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getVida());
@@ -88,7 +95,10 @@ public class Principal {
 									do {
 										for (int i = 0; i < jugadores.length; i++) {
 											num_Bang_Lanzados = 0;
+											
+											// Al inicio del turno se le dan dos cartas al jugador
 											jugadores[i].robarCartas(p, jugadores[i].getIdx_jugador_propio(), 2);
+											
 											do {
 												ij.mostrarAcciones();
 												opAccion = Leer.datoInt();
@@ -133,12 +143,15 @@ public class Principal {
 														}
 														
 														jugadores[i].getCartas()[opJugar - 1].setEstado(enJuego);
-														if(jugadores[i].getCartas()[opJugar - 1].getIdx_Carta()==volcanic)
+														// Activamos el atributo isVolcanic si tiene Volcanic en juego o es Willy el niño (p7)
+														if(jugadores[i].getCartas()[opJugar - 1].getIdx_Carta()==volcanic || jugadores[i].getIdx_Personaje() == willy)
 															jugadores[i].setVolcanicActiva(true);
 													}
 													else 
 														System.out.println("No puedes jugar una carta tipo Fallaste.");
-													System.out.println(jugadores[i]);
+													
+													if(jugadores[i].contarCartasMano() == 0)
+														pt.pasarTurno(p);
 													break;
 												case 4:
 													ij.mostrarInformacionJugador(jugadores[i]);

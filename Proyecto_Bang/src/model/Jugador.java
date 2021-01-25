@@ -159,7 +159,7 @@ public class Jugador {
 	}
 	
 	public int calcularDistanciaJugador(Partida p, Jugador j) {
-		int distancia = 0, enJuego = 2, miraTelescopica = 14, mustang = 15, num_Jugadores_Comprobar, indiceJugador;
+		int distancia = 0, enJuego = 2, miraTelescopica = 14, mustang = 15, num_Jugadores_Comprobar, indiceJugador, paul = 2;
 		
 		if (idx_jugador_propio < j.getIdx_jugador_propio())
 			num_Jugadores_Comprobar = j.getIdx_jugador_propio() - idx_jugador_propio;
@@ -181,13 +181,17 @@ public class Jugador {
 			}
 		}
 		
-		// Comprobar si el otro jugador tiene mustang
+		// Comprobar si el otro jugador tiene carta Mustang
 		for (int i = 0; i < j.getCartas().length; i++) {
 			if(j.getCartas()[i] != null && j.getCartas()[i].getEstado()==enJuego && j.getCartas()[i].getIdx_Carta()==mustang) {
 				distancia++;
 				i = j.getCartas().length;
 			}
 		}
+		// Comprueba si es personaje Paul Regret
+		if(j.getIdx_Personaje() == paul)
+			distancia++;
+		
 		return distancia;
 	}
 	

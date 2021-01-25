@@ -94,7 +94,7 @@ public class Carta {
 	}		
 	
 	public void ejecutarAccion (Partida p) {
-		int opcion;
+		int opcion, bart = 0, slab = 5;
 		boolean seguirDuelo = true;
 	 	switch (idx_Carta) {
 	 		case 0: // Salon
@@ -126,7 +126,10 @@ public class Carta {
 				System.out.println("BANG BANG BANG BANG BANG!! Ametralladora Gatling en acción!\n");
 				for(int i = 0; i<p.getMaximoJugadores(); i++) {
 					if(i != this.idx_Jugador) {
-						p.getJugadores()[i].perderFallaste();
+						// Se comprueba si pierde vida y es Bart, entonces se roba una carta
+						if(!p.getJugadores()[i].perderFallaste())
+							if(p.getJugadores()[i].getIdx_Personaje() == bart)
+								p.getJugadores()[i].robarCartas(p, i, 1);
 					}
 				}
 				break;
@@ -134,7 +137,10 @@ public class Carta {
 				System.out.println("*Se oyen alaridos a lo lejos...* Son los INDIOS!\n");
 				for(int i = 0; i<p.getMaximoJugadores(); i++) {
 					if(i != this.idx_Jugador) {
-						p.getJugadores()[i].perderBang();
+						// Se comprueba si pierde vida y es Bart, entonces se roba una carta
+						if(!p.getJugadores()[i].perderBang())
+							if(p.getJugadores()[i].getIdx_Personaje() == bart)
+								p.getJugadores()[i].robarCartas(p, i, 1);
 					}
 				}
 				break;
@@ -154,6 +160,13 @@ public class Carta {
 						seguirDuelo = p.getJugadores()[this.idx_Jugador].perderBang();
 						if(seguirDuelo)
 							seguirDuelo = p.getJugadores()[opcion - 1].perderFallaste();
+						// Si el que usa la carta de duelo se queda sin BANG, pierde vida y es Bart
+						else if (p.getJugadores()[this.idx_Jugador].getIdx_Personaje() == bart)
+							p.getJugadores()[this.idx_Jugador].robarCartas(p, this.idx_Jugador, 1);
+						
+						// Si el jugador retado se queda sin Fallaste, pierde vida y es Bart
+						if (p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+							p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
 					}
 				}
 				break;
@@ -172,7 +185,19 @@ public class Carta {
 						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
 						opcion = Leer.datoInt();
 					}
-					p.getJugadores()[opcion - 1].perderFallaste();
+					
+					// Se comprueba si el objetivo pierde vida
+					if(!p.getJugadores()[opcion - 1].perderFallaste())
+						// si el personaje es bart, roba una carta
+						if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+							p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+					
+					// Ahora se comprueba si el personaje es Slab para que el objetivo use otro Fallaste si sigue vivo y no ha perdido vida
+					else if(p.getJugadores()[this.idx_Jugador].getIdx_Personaje() == slab)
+						if(!p.getJugadores()[opcion - 1].perderFallaste())
+							if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+								p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+						
 				}
 				break;
 			default:
