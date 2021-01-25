@@ -34,7 +34,7 @@ public class Principal {
 		Jugador jugadores[];
 		int enMazo = 0, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, volcanic = 13, num_Bang_Lanzados, 
 				opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0,
-				willy = 7;
+				willy = 7, suzy = 6;
 		String nombre;
 		
 		// Menú para empezar partida
@@ -151,7 +151,12 @@ public class Principal {
 														System.out.println("No puedes jugar una carta tipo Fallaste.");
 													
 													if(jugadores[i].contarCartasMano() == 0)
-														pt.pasarTurno(p);
+														if(jugadores[i].getIdx_Personaje() == suzy) {
+															jugadores[i].robarCartas(p, i, 1);
+															pt.pasarTurno(p);
+														}
+														else
+															pt.pasarTurno(p);
 													break;
 												case 4:
 													ij.mostrarInformacionJugador(jugadores[i]);
