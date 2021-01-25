@@ -29,12 +29,18 @@ public class ImprimirPartida {
 				+ "Ha escrito un nombre en una sola bala. Ese nombre es... BANG!");
 		System.out.println("BANG! es un juego de duelos entre un grupo de Forajidos y su objetivo principal, el Sheriff, al más puro estilo de los Spaghetti Westerns.\n"
 				+ "Los Alguaciles, de incógnito, ayudan al Sheriff, pero entre todos ellos hay un Renegado que persigue sus propios fines.\n"
-				+ "En BANG! cada jugador interpreta alguno de estos Roles y representa a un Personaje inspirado en algún famoso del Salvaje Oeste.");
+				+ "En BANG! cada jugador interpreta alguno de estos Roles y representa a un Personaje inspirado en algún famoso del Salvaje Oeste.\n\n");
 	}
 	
 	public void imprimirRol(String [] rol) {
 		for (int i = 0; i < rol.length; i++) {
 			System.out.println(rol[i]);
+		}
+	}
+	
+	public void imprimirDescripcionRol(String [] descripcion) {
+		for (int i = 0; i < descripcion.length; i++) {
+			System.out.println(descripcion[i]);
 		}
 	}
 	

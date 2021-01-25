@@ -1,13 +1,10 @@
 package principal;
 
 import controller.PasarTurno;
-import crud.CrudCarta;
-import crud.CrudJugador;
 import crud.CrudPartida;
 import datos.BDCartas;
 import datos.BDPartida;
 import datos.BDPersonajes;
-import model.Carta;
 import model.Jugador;
 import model.Partida;
 import utilidades.Leer;
@@ -24,9 +21,7 @@ public class Principal {
 		BDCartas bdc = new BDCartas();
 		
 		// Objetos de Cruds
-		CrudJugador cj = new CrudJugador();
 		CrudPartida cp = new CrudPartida();
-		CrudCarta cc = new CrudCarta();
 				
 		// Objetos de Vistas
 		ImprimirPartida ip = new ImprimirPartida();
@@ -37,7 +32,7 @@ public class Principal {
 		
 		// Variables
 		Jugador jugadores[];
-		int enMazo = 0, enMano = 1, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, volcanic = 13, num_Bang_Lanzados, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
+		int enMazo = 0, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, volcanic = 13, num_Bang_Lanzados, opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0;
 		String nombre;
 		
 		// Menú para empezar partida
@@ -61,15 +56,25 @@ public class Principal {
 							while(jug_Creados < maxJugadores) {
 								System.out.println("Nombre del jugador " + (jug_Creados+1) + ":");
 								nombre = Leer.dato();
+								System.out.println("Bienvenido al Lejano Oeste " + nombre + ". ¿Qué aventuras te deparará el futuro?\n");
 								jugadores[jug_Creados] = new Jugador();
 								cp.agregarJugador(p, nombre, jugadores[jug_Creados], jug_Creados);
-								System.out.println(p);
 								/*
 								System.out.println("Personaje Asignado: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getNombre());
 								System.out.println("Vida del personaje: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getVida());
 								System.out.println("ID del jugador....: " + i);
 								*/
 								jugadores[jug_Creados].robarCartas(p, jug_Creados, jugadores[jug_Creados].getMaxVidas());
+//								for (int i = 0; i < jugadores[jug_Creados].getCartas().length; i++) {
+//									if(jugadores[jug_Creados].getCartas()[i] != null)
+//										System.out.println(jugadores[jug_Creados].getCartas()[i]);
+//								}
+//								Leer.dato();
+//								jugadores[jug_Creados].getCartas()[0].setEstado(0);
+//								for (int i = 0; i < jugadores[jug_Creados].getCartas().length; i++) {
+//									if(jugadores[jug_Creados].getCartas()[i] != null)
+//										System.out.println(jugadores[jug_Creados].getCartas()[i]);
+//								}
 								jug_Creados++;
 							}
 							// Cuando estén todos los jugadores creados, podremos comenzar la partida.
@@ -83,12 +88,24 @@ public class Principal {
 									do {
 										for (int i = 0; i < jugadores.length; i++) {
 											num_Bang_Lanzados = 0;
+											jugadores[i].robarCartas(p, jugadores[i].getIdx_jugador_propio(), 2);
 											do {
 												ij.mostrarAcciones();
 												opAccion = Leer.datoInt();
-												
 												switch (opAccion) {
 												case 1:
+													ij.mostrarInformacionJugador(jugadores[i]);
+													System.out.println("Rol: " + bdp.getRol()[jugadores[i].getIdx_Rol()]);
+													System.out.println("Objetivo: " + bdp.getDescripcion()[jugadores[i].getIdx_Rol()]);
+													break;
+												case 2:
+													ij.mostrarInformacionJugador(jugadores[i]);
+													for (int j = 0; j < jugadores.length; j++) {
+														System.out.println(p.getJugadores()[j].getNombre() + ": " + p.getJugadores()[j].getVidaActual() + " vidas.");
+													}
+													break;
+												case 3:
+													ij.mostrarInformacionJugador(jugadores[i]);
 													System.out.println("¿Qué carta deseas jugar?");
 													ij.mostrarCartasNombre(jugadores[i]);
 													opJugar = Leer.datoInt();
@@ -97,40 +114,60 @@ public class Principal {
 															System.out.println("No puedes usar más BANG en esta ronda.");
 														else {
 															num_Bang_Lanzados++;
+															jugadores[i].getCartas()[opJugar - 1].setEstado(enMazo);
 															jugadores[i].getCartas()[opJugar - 1].ejecutarAccion(p);
 														}
-													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_accion)
+													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_accion) {
+														jugadores[i].getCartas()[opJugar - 1].setEstado(enMazo);
 														jugadores[i].getCartas()[opJugar - 1].ejecutarAccion(p);
+													}
 													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_arma) {
 														// Recorremos el array de cartas para comprobar si tenemos otro arma en juego y
 														// pasarla al mazo.
 														for (int j = 0; j < jugadores[i].getCartas().length; j++) {
-															if(jugadores[i].getCartas()[j].getEstado() == enJuego) {
+															if(jugadores[i].getCartas()[j] != null && jugadores[i].getCartas()[j].getEstado() == enJuego) {
 																jugadores[i].getCartas()[j].setEstado(enMazo);
 																jugadores[i].setVolcanicActiva(false);
 																j = jugadores[i].getCartas().length;
 															}
 														}
+														
 														jugadores[i].getCartas()[opJugar - 1].setEstado(enJuego);
 														if(jugadores[i].getCartas()[opJugar - 1].getIdx_Carta()==volcanic)
 															jugadores[i].setVolcanicActiva(true);
 													}
 													else 
 														System.out.println("No puedes jugar una carta tipo Fallaste.");
-													break;
-												case 2:
-													ij.mostrarPersonaje(bdpj.getPersonajes()[jugadores[i].getIdx_Personaje()]);
-													break;
-												case 3:
-													ij.mostrarCartas(jugadores[i]);
+													System.out.println(jugadores[i]);
 													break;
 												case 4:
+													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarPersonaje(bdpj.getPersonajes()[jugadores[i].getIdx_Personaje()]);
+													break;
+												case 5:
+													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarCartas(jugadores[i]);
+													break;
+												case 6:
+													ij.mostrarInformacionJugador(jugadores[i]);
 													System.out.println("¿De qué carta deseas deshacerte?");
 													ij.mostrarCartasNombre(jugadores[i]);
 													opDescartar = Leer.datoInt();
+													p.getJugadores()[i].getCartas()[opDescartar - 1].setEstado(enMazo);
+													System.out.println("Te has descartado de " + p.getJugadores()[i].getCartas()[opDescartar - 1].getNombre() + "\n");
 													break;
 												case 0:
 													pt.pasarTurno(p);
+													while(jugadores[i].contarCartasMano() > jugadores[i].getVidaActual()) {
+														System.out.println("Tienes más cartas de las permitidas.");
+														System.out.println("Debes deshacerte de " + (jugadores[i].contarCartasMano() - jugadores[i].getVidaActual()) + " carta(s).");													
+														System.out.println("¿De qué carta deseas deshacerte?");
+														ij.mostrarCartasNombre(jugadores[i]);
+														opDescartar = Leer.datoInt();
+														p.getJugadores()[i].getCartas()[opDescartar - 1].setEstado(enMazo);
+														System.out.println("Te has descartado de " + p.getJugadores()[i].getCartas()[opDescartar - 1].getNombre() + "\n");
+													}
+													
 													ip.imprimirEstadoPartida(p);
 													break;
 												default:	

@@ -1,5 +1,7 @@
 package model;
 
+import utilidades.Leer;
+
 public class Carta {
 
 	// ATRIBUTOS
@@ -13,7 +15,6 @@ public class Carta {
 	
 	// CONSTRUCTOR
 	public Carta() {};
-	
 	
 	public Carta(int idx_Carta, String nombre, int tipo_Carta, int estado, int alcance, String descripcion,
 			int idx_Jugador) {
@@ -92,74 +93,91 @@ public class Carta {
 				+ "]";
 	}		
 	
-	/* public void ejecutarAccion (Partida p) {
-	 * int enMazo = 0, opcion;
-	 * boolean seguirDuelo = true;
-	 * this.setEstado(enMazo);
-	 * switch (idx_tipo_carta) {
-		 * case 0: //Salon
-		 * 	for(i = 0; i<p.maxJugadores; i++){
-		 * 	p.getJugadores()[i].recuperarVida();
-		 * }
-		 * case 1: // Cerveza
-		 * p.getJugadores()[this.idx_Jugador].recuperarVida();
-		case 2: // Almacén: Todos los jugadores roban 1 carta
-					for(i = 0; i<maxJugadores; i++) {
-						if (p.getJugadores()[i].estarVivo())
-							p.getJugadores()[i].robarCartas(p, i, 1)
-					}
-		case 3: // Diligencia: Jugador roba 2 cartas
-					p.getJugadores()[this.idx_Jugador].robarCartas(p, this.idx_Jugador, 2)
-		case 4: // Wells Fargo: Jugador roba 3 cartas
-					p.getJugadores()[this.idx_Jugador].robarCartas(p, this.idx_Jugador, 3)
-		case 5: // Ametralladora Gatling: Dispara un BANG a todos los jugadores.
-				for(i = 0; i<maxJugadores; i++) {
+	public void ejecutarAccion (Partida p) {
+		int opcion;
+		boolean seguirDuelo = true;
+	 	switch (idx_Carta) {
+	 		case 0: // Salon
+ 				System.out.println("¡Qué generoso! Todos tus compañeros recuperan una vida!\n");
+	 			for(int i = 0; i<p.getMaximoJugadores(); i++){
+	 				p.getJugadores()[i].recuperarVida();
+	 			}
+	 			break;
+	 		case 1: // Cerveza
+	 			System.out.println("Te has tomado una cervecita bien fría. ¡A tu salud!\n");
+	 			p.getJugadores()[this.idx_Jugador].recuperarVida();
+	 			break;
+	 		case 2: // Almacén: Todos los jugadores roban 1 carta
+ 				System.out.println("¡Qué generoso! Todos tus compañeros roban una carta!\n");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if (p.getJugadores()[i].estarVivo())
+						p.getJugadores()[i].robarCartas(p, i, 1);
+				}
+				break;
+			case 3: // Diligencia: Jugador roba 2 cartas
+ 					System.out.println("Robas 2 cartas!\n");
+					p.getJugadores()[this.idx_Jugador].robarCartas(p, this.idx_Jugador, 2);
+					break;
+			case 4: // Wells Fargo: Jugador roba 3 cartas
+					System.out.println("¡ORO! Robas 3 cartas!\n");
+					p.getJugadores()[this.idx_Jugador].robarCartas(p, this.idx_Jugador, 3);
+					break;
+			case 5: // Ametralladora Gatling: Dispara un BANG a todos los jugadores.
+				System.out.println("BANG BANG BANG BANG BANG!! Ametralladora Gatling en acción!\n");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
 					if(i != this.idx_Jugador) {
 						p.getJugadores()[i].perderFallaste();
 					}
 				}
-		case 6: // ¡Indios!: Utiliza un BANG o pierde 1 de vida.
-				for(i = 0; i<p.maxJugadores; i++) {
+				break;
+			case 6: // ¡Indios!: Utiliza un BANG o pierde 1 de vida.
+				System.out.println("*Se oyen alaridos a lo lejos...* Son los INDIOS!\n");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
 					if(i != this.idx_Jugador) {
 						p.getJugadores()[i].perderBang();
 					}
 				}
-		case 7: // Duelo: El que empieza el duelo tira BANG todas las veces que quiera mientras el otro jugador se pueda defender
-				// El que antes deje de poder atacar/defender pierde 1 de vida.
-					syso "¿A qué jugador quieres retar?"
-					for(i = 0; i<maxJugadores; i++) {
-						if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
-							syso("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				break;
+			case 7: // Duelo: El que empieza el duelo tira BANG todas las veces que quiera mientras el otro jugador se pueda defender
+					// El que antes deje de poder atacar/defender pierde 1 de vida.
+				System.out.println("¿A qué jugador quieres retar?");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+						System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				}
+				opcion = Leer.datoInt();
+				System.out.println("¡Que comience el duelo!\n");
+				if (opcion > p.getMaximoJugadores() || !p.getJugadores()[opcion - 1].estarVivo())
+				 	System.out.println("Jugador incorrecto");
+				else {
+					while (seguirDuelo) {
+						seguirDuelo = p.getJugadores()[this.idx_Jugador].perderBang();
+						if(seguirDuelo)
+							seguirDuelo = p.getJugadores()[opcion - 1].perderFallaste();
 					}
-					opcion = Leer.datoInt();
-					if (opcion > p.maxJugadores || !p.getJugadores()[opcion].estarVivo())
-					 	syso("Jugador incorrecto);
-					else {
-						while (seguirDuelo) {
-							seguirDuelo = p.getJugadores()[this.idx_Jugador].perderBang();
-							if(seguirDuelo)
-								seguirDuelo = p.getJugadores()[opcion].perderFallaste();
-						}
+				}
+				break;
+			case 16: // BANG
+				System.out.println("¿A qué jugador quieres disparar?");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+						System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				}
+				opcion = Leer.datoInt();
+				System.out.println("¡BANG!\n");
+				if (opcion > p.getMaximoJugadores() || !p.getJugadores()[opcion - 1].estarVivo())
+				 	System.out.println("Jugador incorrecto");
+				else {
+					while(p.getJugadores()[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores()[this.idx_Jugador].calcularMiAlcance()){
+						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
+						opcion = Leer.datoInt();
 					}
-		case 16: BANG
-		syso "¿A qué jugador quieres disparar?"
-					for(i = 0; i<maxJugadores; i++) {
-						if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
-							syso("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
-					}
-					opcion = Leer.datoInt();
-					if (opcion > p.maxJugadores || !p.getJugadores()[opcion - 1].estarVivo())
-					 	syso("Jugador incorrecto);
-					else {
-						while(p.getJugadores[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores[this.idx_Jugador].calcularMiAlcance){
-							syso("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
-							opcion = Leer.datoInt();
-						}
-						p.getJugadores()[opcion - 1].perderFallaste();
-					}
-	 * }
-	 *  
-	 * }
-	* 
-	*/
+					p.getJugadores()[opcion - 1].perderFallaste();
+				}
+				break;
+			default:
+				System.out.println("No se puede jugar esta carta.");
+	 	}
+	  
+	}
 }

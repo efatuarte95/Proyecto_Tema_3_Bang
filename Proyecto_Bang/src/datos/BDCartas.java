@@ -1,5 +1,7 @@
 package datos;
 
+import java.util.Arrays;
+
 import model.Carta;
 
 public class BDCartas {
@@ -180,4 +182,14 @@ public class BDCartas {
 	public void setCartas(Carta[] cartas) {
 		this.cartas = cartas;
 	}
+
+	@Override
+	public String toString() {
+		return "BDCartas [c0=" + c0 + ", c1=" + c1 + ", c2=" + c2 + ", c3=" + c3 + ", c4=" + c4 + ", c5=" + c5 + ", c6="
+				+ c6 + ", c7=" + c7 + ", c8=" + c8 + ", c9=" + c9 + ", c10=" + c10 + ", c11=" + c11 + ", c12=" + c12
+				+ ", c13=" + c13 + ", c14=" + c14 + ", c15=" + c15 + ", c16=" + c16 + ", c17=" + c17 + ", cartas="
+				+ Arrays.toString(cartas) + "]";
+	}
+	
+	
 }

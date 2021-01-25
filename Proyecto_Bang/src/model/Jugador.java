@@ -146,23 +146,11 @@ public class Jugador {
 		return asignada;
 	}
 	
-	public void descartar(int idCarta, boolean enJuego) {
-		/* 
-		 * Éste método sirve para descartar una carta si tenemos más cartas en mano
-		 * que nuestra vida actual.
-		 */
-	}
-	
-	public void jugarCarta(int idCarta) {
-		/* Éste método llama a descartar(idCarta, true) si la carta es un Arma (Tipo = 3) o 
-		 * a descartar(idCarta, false) si es un BANG (Tipo = 0), un Fallaste (Tipo = 1) o
-		 * una carta de acción (Tipo = 2)*/
-	}
 	public int calcularMiAlcance() {
 		int enJuego = 2;
 		int alcance = bdpj.getPersonajes()[idx_Personaje].getAlcance();
 		for (int i = 0; i < this.cartas.length; i++) {
-			if (cartas[i].getEstado()==enJuego) {
+			if (cartas[i] != null && cartas[i].getEstado()==enJuego) {
 				alcance = cartas[i].getAlcance();
 				i = cartas.length;
 			}
@@ -187,7 +175,7 @@ public class Jugador {
 		}
 		// Comprobar si yo tengo mira telescopica
 		for (int i = 0; i < this.cartas.length; i++) {
-			if(this.cartas[i].getEstado()==enJuego && this.cartas[i].getIdx_Carta()==miraTelescopica) {
+			if(this.cartas[i] != null && this.cartas[i].getEstado()==enJuego && this.cartas[i].getIdx_Carta()==miraTelescopica) {
 				distancia--;
 				i = this.cartas.length;
 			}
@@ -195,7 +183,7 @@ public class Jugador {
 		
 		// Comprobar si el otro jugador tiene mustang
 		for (int i = 0; i < j.getCartas().length; i++) {
-			if(j.getCartas()[i].getEstado()==enJuego && j.getCartas()[i].getIdx_Carta()==mustang) {
+			if(j.getCartas()[i] != null && j.getCartas()[i].getEstado()==enJuego && j.getCartas()[i].getIdx_Carta()==mustang) {
 				distancia++;
 				i = j.getCartas().length;
 			}
@@ -204,8 +192,11 @@ public class Jugador {
 	}
 	
 	public void recuperarVida () {
-		if (vidaActual > 0 && vidaActual < maxVidas) // Solo recuperan vida si está vivo
-			vidaActual++;
+		if (vidaActual > 0) // Solo recuperan vida si está vivo
+			if(vidaActual < maxVidas)
+				vidaActual++;
+			else 
+				System.out.println(getNombre() + " ya tiene el máximo de vida. No se puede recuperar más vidas.");
 	}
 	
 	public void perderVida () {
@@ -233,7 +224,7 @@ public class Jugador {
 		boolean tieneBang = false;
 		int enMano = 1, enMazo = 0, tipo_bang = 0;
 		for (int i = 0; i < this.cartas.length; i++) {
-			if (cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_bang) {
+			if (cartas[i] != null && cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_bang) {
 				cartas[i].setEstado(enMazo);
 				tieneBang = true;
 				i = this.cartas.length; // Salimos del for
@@ -255,7 +246,7 @@ public class Jugador {
 		boolean tieneFallaste = false;
 		int enMano = 1, enMazo = 0, tipo_fallaste = 1;
 		for (int i = 0; i < this.cartas.length; i++) {
-			if (cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_fallaste) {
+			if (cartas[i] != null && cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_fallaste) {
 				cartas[i].setEstado(enMazo);
 				tieneFallaste = true;
 				i = this.cartas.length; // Salimos del for
@@ -278,5 +269,14 @@ public class Jugador {
 			return true;
 		else 
 			return false;
+	}
+	
+	public int contarCartasMano() {
+		int cartasMano = 0, enMano = 1;
+		for (int i = 0; i < cartas.length; i++) {
+			if (getCartas()[i] != null && getCartas()[i].getEstado() == enMano)
+				cartasMano++;
+		}
+		return cartasMano;
 	}
 }

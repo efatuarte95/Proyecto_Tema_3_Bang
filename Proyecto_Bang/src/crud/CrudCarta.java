@@ -30,7 +30,12 @@ public class CrudCarta {
 		Random r;
 		r = new Random(System.nanoTime());
 		aleatorio = r.nextInt(hasta-desde+1)+desde;
-		c = bdc.getCartas()[aleatorio];
+		//c = bdc.getCartas()[aleatorio];
+		c.setNombre(bdc.getCartas()[aleatorio].getNombre());
+		c.setDescripcion(bdc.getCartas()[aleatorio].getDescripcion());
+		c.setAlcance(bdc.getCartas()[aleatorio].getAlcance());
+		c.setIdx_Carta(bdc.getCartas()[aleatorio].getIdx_Carta());
+		c.setTipo_Carta(bdc.getCartas()[aleatorio].getTipo_Carta());
 		c.setEstado(enMano);
 		return c;
 	}
