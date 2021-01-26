@@ -13,6 +13,14 @@ import vistas.ImprimirPartida;
 
 public class Principal {
 
+	/*
+	 * Ale: Bases de datos de Personajes, cartas y partida. Vistas de menu (Imprimir Jugador). Imprimir instrucciones
+	 * Fran: Metodos de asignar jugador, Vistas, Métodos de contar Bang/Fallaste y Perder Bang/Fallaste (Clase jugador). Imprimir datos partida
+	 * Ernesto: Modelo personaje. Metodos de acciones de cartas. Clase principal. Cruds de jugador, partida y carta
+	 * Entre los 3: Metodo de fin de partida y acciones de personajes
+	 */
+	
+	
 	public static void main(String[] args) {
 		
 		// Objetos de Datos
@@ -119,17 +127,20 @@ public class Principal {
 													System.out.println("¿Qué carta deseas jugar?");
 													ij.mostrarCartasNombre(jugadores[i]);
 													opJugar = Leer.datoInt();
-													if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_bang)
+													if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_bang) {
 														if(num_Bang_Lanzados > 0 && !jugadores[i].isVolcanicActiva())
 															System.out.println("No puedes usar más BANG en esta ronda.");
 														else {
 															num_Bang_Lanzados++;
 															jugadores[i].getCartas()[opJugar - 1].setEstado(enMazo);
 															jugadores[i].getCartas()[opJugar - 1].ejecutarAccion(p);
+															p.terminarPartida();
 														}
+													}
 													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_accion) {
 														jugadores[i].getCartas()[opJugar - 1].setEstado(enMazo);
 														jugadores[i].getCartas()[opJugar - 1].ejecutarAccion(p);
+														p.terminarPartida();
 													}
 													else if(jugadores[i].getCartas()[opJugar - 1].getTipo_Carta() == tipo_arma) {
 														// Recorremos el array de cartas para comprobar si tenemos otro arma en juego y
