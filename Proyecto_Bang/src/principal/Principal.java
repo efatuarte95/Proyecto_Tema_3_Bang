@@ -13,12 +13,12 @@ import vistas.ImprimirPartida;
 
 public class Principal {
 
-	/*
-	 * Ale: Bases de datos de Personajes, cartas y partida. Vistas de menu (Imprimir Jugador). Imprimir instrucciones
-	 * Fran: Metodos de asignar jugador, Vistas, Métodos de contar Bang/Fallaste y Perder Bang/Fallaste (Clase jugador). Imprimir datos partida
-	 * Ernesto: Modelo personaje. Metodos de acciones de cartas. Clase principal. Cruds de jugador, partida y carta
-	 * Entre los 3: Metodo de fin de partida y acciones de personajes
-	 */
+/*
+ * Ale: Bases de datos de Personajes, cartas y partida. Vistas de menú (Imprimir Jugador). Imprimir instrucciones.
+ * Fran: Métodos de asignar roles a jugador, Vistas, Métodos de contar Bang/Fallaste y Perder Bang/Fallaste (Clase jugador). Imprimir datos partida
+ * Ernesto: Métodos para asignar las cartas y el personaje al jugador. Métodos de acciones de cartas. Clase principal. Cruds de jugador, partida y cartas.
+ * Entre los 3: Metodo de fin de partida y acciones de personajes
+ */
 	
 	
 	public static void main(String[] args) {
@@ -42,7 +42,7 @@ public class Principal {
 		Jugador jugadores[];
 		int enMazo = 0, enJuego = 2, tipo_bang = 0, tipo_accion = 2, tipo_arma = 3, volcanic = 13, num_Bang_Lanzados, 
 				opPartida, opJugador, opComenzar, opAccion, opJugar, opDescartar, maxJugadores = 5, jug_Creados = 0,
-				willy = 7, suzy = 6;
+				willy = 7, suzy = 6, contadorDescartes, sid = 4;
 		String nombre;
 		
 		// Menú para empezar partida
@@ -58,6 +58,7 @@ public class Principal {
 
 					ip.mostrarMenuAgregarJugador();
 					opJugador = Leer.datoInt();
+					
 					// Pediremos a los jugadores que vayan introduciendo sus nombres hasta que estén los 5 creados.
 					switch (opJugador) {
 						case 1:
@@ -74,22 +75,7 @@ public class Principal {
 								if(jugadores[jug_Creados].getIdx_Personaje() == willy)
 									jugadores[jug_Creados].setVolcanicActiva(true);
 								
-								/*
-								System.out.println("Personaje Asignado: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getNombre());
-								System.out.println("Vida del personaje: " + p.getPersonaje()[jugadores[i].getIdx_Personaje()].getVida());
-								System.out.println("ID del jugador....: " + i);
-								*/
 								jugadores[jug_Creados].robarCartas(p, jug_Creados, jugadores[jug_Creados].getMaxVidas());
-//								for (int i = 0; i < jugadores[jug_Creados].getCartas().length; i++) {
-//									if(jugadores[jug_Creados].getCartas()[i] != null)
-//										System.out.println(jugadores[jug_Creados].getCartas()[i]);
-//								}
-//								Leer.dato();
-//								jugadores[jug_Creados].getCartas()[0].setEstado(0);
-//								for (int i = 0; i < jugadores[jug_Creados].getCartas().length; i++) {
-//									if(jugadores[jug_Creados].getCartas()[i] != null)
-//										System.out.println(jugadores[jug_Creados].getCartas()[i]);
-//								}
 								jug_Creados++;
 							}
 							// Cuando estén todos los jugadores creados, podremos comenzar la partida.
@@ -108,11 +94,11 @@ public class Principal {
 											ip.imprimirEstadoPartida(p);
 											// Se resetean el numero de bang jugados 
 											num_Bang_Lanzados = 0;
+											contadorDescartes = 0;
 											
 											// Al inicio del turno se le dan dos cartas al jugador
 											jugadores[i].robarCartas(p, jugadores[i].getIdx_jugador_propio(), 2);
 											do {
-												
 												ij.mostrarAcciones();
 												opAccion = Leer.datoInt();
 												switch (opAccion) {
@@ -189,6 +175,12 @@ public class Principal {
 													opDescartar = Leer.datoInt();
 													p.getJugadores()[i].getCartas()[opDescartar - 1].setEstado(enMazo);
 													System.out.println("Te has descartado de " + p.getJugadores()[i].getCartas()[opDescartar - 1].getNombre() + "\n");
+													contadorDescartes++;
+													if(contadorDescartes >= 2 && p.getJugadores()[i].getIdx_Personaje() == sid) {
+														p.getJugadores()[i].recuperarVida();
+														System.out.println("Todo sacrificio tiene su recompensa. Recuperas 1 vida!");
+														contadorDescartes = 0;
+													}
 													break;
 												case 0:
 													pt.pasarTurno(p);
@@ -199,7 +191,7 @@ public class Principal {
 														ij.mostrarCartasNombre(jugadores[i]);
 														opDescartar = Leer.datoInt();
 														p.getJugadores()[i].getCartas()[opDescartar - 1].setEstado(enMazo);
-														System.out.println("Te has descartado de " + p.getJugadores()[i].getCartas()[opDescartar - 1].getNombre() + "\n");
+														System.out.println("Te has descartado de " + p.getJugadores()[i].getCartas()[opDescartar - 1].getNombre());
 													}
 													break;
 												default:	
