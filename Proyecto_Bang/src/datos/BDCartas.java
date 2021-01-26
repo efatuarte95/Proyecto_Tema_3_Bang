@@ -33,12 +33,14 @@ public class BDCartas {
 	private Carta c20 = new Carta (20, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
 	private Carta c21 = new Carta (21, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
 	private Carta c22 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
-	private Carta c23 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
-	private Carta c24 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
-	private Carta c25 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
-	private Carta c26 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c23 = new Carta (23, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c24 = new Carta (24, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c25 = new Carta (25, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c26 = new Carta (26, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c27 = new Carta (27, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+
 	
-	private Carta cartas[] = {c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26};
+	private Carta cartas[] = {c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27};
 
 	public Carta getC0() {
 		return c0;

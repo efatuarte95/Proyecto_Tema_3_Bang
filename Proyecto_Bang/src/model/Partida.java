@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class Partida {
 
 	// ATRIBUTOS
-	private int ganador;
 	private Jugador jugadores[];
 	private String rol[];
 	private Personaje personaje[];
@@ -23,8 +22,7 @@ public class Partida {
 	
 	public Partida(String rol[]) {};
 	
-	public Partida(int ganador, Jugador[] jugadores, String[] rol, Personaje[] personaje, Carta[] cartas, int maximoJugadores) {
-		this.ganador = ganador;
+	public Partida(Jugador[] jugadores, String[] rol, Personaje[] personaje, Carta[] cartas, int maximoJugadores) {
 		this.jugadores = jugadores;
 		this.rol = rol;
 		this.personaje = personaje;
@@ -39,14 +37,6 @@ public class Partida {
 	}
 
 	// GETTERS & SETTERS 
-	public int getGanador() {
-		return ganador;
-	}
-
-	public void setGanador(int ganador) {
-		this.ganador = ganador;
-	}
-
 	public Jugador[] getJugadores() {
 		return jugadores;
 	}
@@ -133,7 +123,7 @@ public class Partida {
 
 	@Override
 	public String toString() {
-		return "Partida [ganador=" + ganador + ", jugadores=" + Arrays.toString(jugadores) + ", rol="
+		return "Partida [jugadores=" + Arrays.toString(jugadores) + ", rol="
 				+ Arrays.toString(rol) + ", personaje=" + Arrays.toString(personaje) + ", cartas="
 				+ Arrays.toString(cartas) + ", idx_Ultima_Carta=" + idx_Ultima_Carta + ", maxBang=" + maxBang
 				+ ", maxFallaste=" + maxFallaste + ", numRonda=" + numRonda + ", turnoJugador=" + turnoJugador
@@ -141,14 +131,15 @@ public class Partida {
 	}
 	
 	public void terminarPartida() {
-		// Si Sherif vivo y forajidos y renegado muertos, gana Sherif y Alguacil 
+		
 		for (int i = 0; i < maximoJugadores; i++) {
 			if(
+				// Si Sherif vivo y forajidos y renegado muertos, gana Sheriff y Alguacil 
 				(getJugadores()[i].getIdx_Rol()==0 && getJugadores()[i].estarVivo()) && 
 				((getJugadores()[i].getIdx_Rol()==2 && !getJugadores()[i].estarVivo()) &&
 				(getJugadores()[i].getIdx_Rol()==3 && !getJugadores()[i].estarVivo()) &&
 				(getJugadores()[i].getIdx_Rol()==4 && !getJugadores()[i].estarVivo())) ||
-				// Alguacil 2.0
+				// Si alguacil gana, Sheriff gana también
 				(getJugadores()[i].getIdx_Rol()==0 && !getJugadores()[i].estarVivo() && 
 				(getJugadores()[i].getIdx_Rol()==1 && getJugadores()[i].estarVivo())) &&
 				((getJugadores()[i].getIdx_Rol()==2 && !getJugadores()[i].estarVivo()) &&
@@ -156,7 +147,7 @@ public class Partida {
 				(getJugadores()[i].getIdx_Rol()==4 && !getJugadores()[i].estarVivo()))) 
 			{
 					finPartida = true;
-					System.out.println("Ha ganado el Sheriff y su Alguacil.");
+					System.out.println("Ha ganado el Sheriff y su Alguacil!!");
 			}
 				
 				// Si eres forajido vivo y Sheriff y renegado muertos, ganan forajidos
@@ -168,7 +159,7 @@ public class Partida {
 				(getJugadores()[i].getIdx_Rol()==4 && !getJugadores()[i].estarVivo())))
 			{
 					finPartida = true;
-					System.out.println("Han ganado los forajidos.");
+					System.out.println("Han ganado los forajidos!!");
 			}
 				
 				// Si eres renegado vivo y todos muertos, gana renegado
@@ -180,7 +171,7 @@ public class Partida {
 				(getJugadores()[i].getIdx_Rol()==2 && !getJugadores()[i].estarVivo())))
 			{
 					finPartida = true;
-					System.out.println("Ha ganado el renegado.");
+					System.out.println("Ha ganado el renegado!!");
 			}
 		}
 		

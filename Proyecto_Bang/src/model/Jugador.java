@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import crud.CrudCarta;
 import crud.CrudJugador;
+import datos.BDPartida;
 import datos.BDPersonajes;
 
 public class Jugador {
@@ -11,6 +12,7 @@ public class Jugador {
 	CrudJugador cj = new CrudJugador();
 	CrudCarta cc = new CrudCarta();
 	BDPersonajes bdpj = new BDPersonajes();
+	BDPartida bdp = new BDPartida();
 	
 	// ATRIBUTOS
 	private int idx_jugador_propio;
@@ -226,44 +228,52 @@ public class Jugador {
 	
 	public boolean perderBang() {
 		boolean tieneBang = false;
-		int enMano = 1, enMazo = 0, tipo_bang = 0;
+		int enMano = 1, enMazo = 0, tipo_bang = 0, tipo_fallaste = 1, calamity = 1;
+		// Se tiene en cuenta si el personaje es Calamity para hacer que BANG y Fallaste sean iguales
 		for (int i = 0; i < this.cartas.length; i++) {
-			if (cartas[i] != null && cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_bang) {
+			if (cartas[i] != null && cartas[i].getEstado()==enMano && (cartas[i].getTipo_Carta() == tipo_bang || (cartas[i].getTipo_Carta() == tipo_fallaste && getIdx_Personaje() == calamity))) {
 				cartas[i].setEstado(enMazo);
 				tieneBang = true;
+				// Si la carta usada es un fallaste lo avisamos.
+				if(cartas[i].getTipo_Carta() == tipo_fallaste)
+					System.out.println(getNombre() + "ha utilizado un Fallaste como BANG.");
+				else
+					System.out.println(getNombre() + " ha perdido un BANG.");
 				i = this.cartas.length; // Salimos del for
 			}
 		}
-		if (tieneBang)
-			System.out.println(getNombre() + " ha perdido un BANG.");
-		else {
+		if (!tieneBang) {
 			this.perderVida();
 			if (this.vidaActual > 0)
 				System.out.println(getNombre() + " ha perdido una vida.");
 			else
-				System.out.println(getNombre() + " ha muerto.");
+				System.out.println(getNombre() + " ha muerto. Su rol era " + bdp.getRol()[getIdx_jugador_propio()]);
 		}
 		return tieneBang;
 	}
 	
 	public boolean perderFallaste() {
 		boolean tieneFallaste = false;
-		int enMano = 1, enMazo = 0, tipo_fallaste = 1;
+		int enMano = 1, enMazo = 0, tipo_bang = 0, tipo_fallaste = 1, calamity = 1;
+		// Se tiene en cuenta si el personaje es Calamity para hacer que BANG y Fallaste sean iguales
 		for (int i = 0; i < this.cartas.length; i++) {
-			if (cartas[i] != null && cartas[i].getEstado()==enMano && cartas[i].getTipo_Carta() == tipo_fallaste) {
+			if (cartas[i] != null && cartas[i].getEstado()==enMano && (cartas[i].getTipo_Carta() == tipo_fallaste || (cartas[i].getTipo_Carta() == tipo_bang && getIdx_Personaje() == calamity))) {
 				cartas[i].setEstado(enMazo);
 				tieneFallaste = true;
+				// Si la carta usada es un BANG lo avisamos.
+				if(cartas[i].getTipo_Carta() == tipo_bang)
+					System.out.println(getNombre() + "ha utilizado un BANG como Fallaste.");
+				else
+					System.out.println(getNombre() + " ha perdido un Fallaste.");
 				i = this.cartas.length; // Salimos del for
 			}
 		}
-		if (tieneFallaste)
-			System.out.println(getNombre() + " ha perdido un Fallaste.");
-		else {
+		if (!tieneFallaste) {
 			this.perderVida();
 			if (this.vidaActual > 0)
 				System.out.println(getNombre() + " ha perdido una vida.");
 			else
-				System.out.println(getNombre() + " ha muerto.");
+				System.out.println(getNombre() + " ha muerto. Su rol era " + bdp.getRol()[getIdx_jugador_propio()]);
 		}
 		return tieneFallaste;
 	}
