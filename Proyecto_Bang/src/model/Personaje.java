@@ -6,15 +6,13 @@ public class Personaje {
 	private String nombre;
 	private int vida;
 	private int alcance;
-	private Efectos efecto;
 	private String descripcion;
 	
 	// CONSTRUCTOR
-	public Personaje(String nombre, int vida, int alcance, Efectos efecto, String descripcion) {
+	public Personaje(String nombre, int vida, int alcance, String descripcion) {
 		this.nombre = nombre;
 		this.vida = vida;
 		this.alcance = alcance;
-		this.efecto = efecto;
 		this.descripcion = descripcion;
 	}
 	
@@ -43,14 +41,6 @@ public class Personaje {
 		this.alcance = alcance;
 	}
 
-	public Efectos getEfecto() {
-		return efecto;
-	}
-
-	public void setEfecto(Efectos efecto) {
-		this.efecto = efecto;
-	}
-
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -62,8 +52,7 @@ public class Personaje {
 	// MÉTODOS
 	@Override
 	public String toString() {
-		return "Personaje [nombre=" + nombre + ", vida=" + vida + ", alcance=" + alcance + ", efecto=" + efecto
-				+ ", descripcion=" + descripcion + "]";
+		return "Personaje [nombre=" + nombre + ", vida=" + vida + ", alcance=" + alcance + ", descripcion=" + descripcion + "]";
 	}
 
 	public int perderVida() {
