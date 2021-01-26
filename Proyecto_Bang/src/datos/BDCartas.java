@@ -27,9 +27,18 @@ public class BDCartas {
 	private Carta c14 = new Carta (14, "Mira Telescópica", 3, 0, 1, "Modifica la distancia respecto al resto de jugadores en 1.", -1);
 	private Carta c15 = new Carta (15, "Mustang", 3, 0, 1, "Aumenta la distancia a la que te ven el resto de jugadores en 1.", -1);
 	private Carta c16 = new Carta (16, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
-	private Carta c17 = new Carta (17, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c17 = new Carta (17, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
+	private Carta c18 = new Carta (18, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
+	private Carta c19 = new Carta (19, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
+	private Carta c20 = new Carta (20, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
+	private Carta c21 = new Carta (21, "¡BANG!", 0, 0, 0, "Dispara a un enemigo.", -1);
+	private Carta c22 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c23 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c24 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c25 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
+	private Carta c26 = new Carta (22, "Fallaste", 1, 0, 0, "Esquiva el disparo de un enemigo.", -1);
 	
-	private Carta cartas[] = {c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17};
+	private Carta cartas[] = {c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26};
 
 	public Carta getC0() {
 		return c0;

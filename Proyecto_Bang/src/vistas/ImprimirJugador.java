@@ -10,10 +10,10 @@ public class ImprimirJugador {
 	public void mostrarAcciones() {
 		System.out.println("\n¿Qué quieres hacer?");
 		System.out.println("[1] - Objetivo de la partida.");
-		System.out.println("[2] - Consultar vida.");
-		System.out.println("[3] - Jugar una carta.");
-		System.out.println("[4] - Ver mi personaje.");
-		System.out.println("[5] - Ver mis cartas.");
+		System.out.println("[2] - Ver mi personaje.");
+		System.out.println("[3] - Consultar vidas.");
+		System.out.println("[4] - Ver mis cartas.");
+		System.out.println("[5] - Jugar una carta.");
 		System.out.println("[6] - Descartar.");
 		System.out.println("[0] - Pasar turno.");
 	}
@@ -25,9 +25,9 @@ public class ImprimirJugador {
 			if(j.getCartas()[i] != null && j.getCartas()[i].getEstado() == enJuego)
 				arma = j.getCartas()[i].getNombre();
 		}
-		System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------|");
-		System.out.println("| Nombre: " + j.getNombre() + "\tRol: " + bdp.getRol()[j.getIdx_Rol()] + "\tPersonaje: " + bdpj.getPersonajes()[j.getIdx_Personaje()].getNombre() +  "\tVidas: " + j.getVidaActual() + "\tArma en Juego: " + arma + "\t   Alcance: " + j.calcularMiAlcance() + "\t |");
-		System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------|");
+		System.out.println("|----------------------------------------------------------------------------------------------------------------------------------|");
+		System.out.println("| Nombre: " + j.getNombre() + "\tRol: " + bdp.getRol()[j.getIdx_Rol()] + "\tPersonaje: " + bdpj.getPersonajes()[j.getIdx_Personaje()].getNombre() +  "\t\tVidas: " + j.getVidaActual() + "\tArma en Juego: " + arma + "\t   Alcance: " + j.calcularMiAlcance() + "\t |");
+		System.out.println("|----------------------------------------------------------------------------------------------------------------------------------|");
 	}
 	
 	public void mostrarCartasNombre(Jugador j) {

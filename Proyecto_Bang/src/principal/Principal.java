@@ -98,14 +98,14 @@ public class Principal {
 							
 							switch (opComenzar) {
 								case 1:
-									ip.mostrarInstrucciones();		
+									ip.mostrarInstrucciones(bdp);		
 									ip.imprimirEstadoPartida(p);
 									do {
 										for (int i = 0; i < jugadores.length; i++) {
-											num_Bang_Lanzados = 0;
-											
 											// Al inicio del turno se le dan dos cartas al jugador
 											jugadores[i].robarCartas(p, jugadores[i].getIdx_jugador_propio(), 2);
+											
+											num_Bang_Lanzados = 0;
 											
 											do {
 												ij.mostrarAcciones();
@@ -118,11 +118,19 @@ public class Principal {
 													break;
 												case 2:
 													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
+													ij.mostrarPersonaje(bdpj.getPersonajes()[jugadores[i].getIdx_Personaje()]);
+													break;
+												case 3:
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													for (int j = 0; j < jugadores.length; j++) {
 														System.out.println(p.getJugadores()[j].getNombre() + ": " + p.getJugadores()[j].getVidaActual() + " vidas.");
 													}
 													break;
-												case 3:
+												case 4:
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
+													ij.mostrarCartas(jugadores[i]);
+													break;
+												case 5:
 													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													System.out.println("¿Qué carta deseas jugar?");
 													ij.mostrarCartasNombre(jugadores[i]);
@@ -168,14 +176,6 @@ public class Principal {
 														}
 														else
 															pt.pasarTurno(p);
-													break;
-												case 4:
-													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
-													ij.mostrarPersonaje(bdpj.getPersonajes()[jugadores[i].getIdx_Personaje()]);
-													break;
-												case 5:
-													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
-													ij.mostrarCartas(jugadores[i]);
 													break;
 												case 6:
 													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);

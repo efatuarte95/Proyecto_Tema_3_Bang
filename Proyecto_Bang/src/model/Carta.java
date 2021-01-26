@@ -98,28 +98,28 @@ public class Carta {
 		boolean seguirDuelo = true;
 	 	switch (idx_Carta) {
 	 		case 0: // Salon
- 				System.out.println("¡Qué generoso! Todos tus compañeros recuperan una vida!\n");
+ 				System.out.println("¡Qué generoso! Todos tus compañeros recuperan una vida!");
 	 			for(int i = 0; i<p.getMaximoJugadores(); i++){
 	 				p.getJugadores()[i].recuperarVida();
 	 			}
 	 			break;
 	 		case 1: // Cerveza
-	 			System.out.println("Te has tomado una cervecita bien fría. ¡A tu salud!\n");
+	 			System.out.println("Te has tomado una cervecita bien fría. ¡A tu salud!");
 	 			p.getJugadores()[this.idx_Jugador].recuperarVida();
 	 			break;
 	 		case 2: // Almacén: Todos los jugadores roban 1 carta
- 				System.out.println("¡Qué generoso! Todos tus compañeros roban una carta!\n");
+ 				System.out.println("¡Qué generoso! Todos tus compañeros roban una carta!");
 				for(int i = 0; i<p.getMaximoJugadores(); i++) {
 					if (p.getJugadores()[i].estarVivo())
 						p.getJugadores()[i].robarCartas(p, i, 1);
 				}
 				break;
 			case 3: // Diligencia: Jugador roba 2 cartas
- 					System.out.println("Robas 2 cartas!\n");
+ 					System.out.println("Robas 2 cartas!");
 					p.getJugadores()[this.idx_Jugador].robarCartas(p, this.idx_Jugador, 2);
 					break;
 			case 4: // Wells Fargo: Jugador roba 3 cartas
-					System.out.println("¡ORO! Robas 3 cartas!\n");
+					System.out.println("¡ORO! Robas 3 cartas!");
 					p.getJugadores()[this.idx_Jugador].robarCartas(p, this.idx_Jugador, 3);
 					break;
 			case 5: // Ametralladora Gatling: Dispara un BANG a todos los jugadores.
@@ -183,7 +183,187 @@ public class Carta {
 				else {
 					while(p.getJugadores()[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores()[this.idx_Jugador].calcularMiAlcance()){
 						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
-						opcion = Leer.datoInt();
+						System.out.println("¿A qué jugador quieres disparar?");
+						for(int i = 0; i<p.getMaximoJugadores(); i++) {
+							if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+								System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+						}	
+						opcion = Leer.datoInt();						
+					}
+					
+					// Se comprueba si el objetivo pierde vida
+					if(!p.getJugadores()[opcion - 1].perderFallaste())
+						// si el personaje es bart, roba una carta
+						if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+							p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+					
+					// Ahora se comprueba si el personaje es Slab para que el objetivo use otro Fallaste si sigue vivo y no ha perdido vida
+					else if(p.getJugadores()[this.idx_Jugador].getIdx_Personaje() == slab)
+						if(!p.getJugadores()[opcion - 1].perderFallaste())
+							if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+								p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+						
+				}
+				break;
+			case 17: // BANG
+				System.out.println("¿A qué jugador quieres disparar?");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+						System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				}
+				opcion = Leer.datoInt();
+				System.out.println("¡BANG!\n");
+				if (opcion > p.getMaximoJugadores() || !p.getJugadores()[opcion - 1].estarVivo())
+				 	System.out.println("Jugador incorrecto");
+				else {
+					while(p.getJugadores()[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores()[this.idx_Jugador].calcularMiAlcance()){
+						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
+						System.out.println("¿A qué jugador quieres disparar?");
+						for(int i = 0; i<p.getMaximoJugadores(); i++) {
+							if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+								System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+						}	
+						opcion = Leer.datoInt();						
+					}
+					
+					// Se comprueba si el objetivo pierde vida
+					if(!p.getJugadores()[opcion - 1].perderFallaste())
+						// si el personaje es bart, roba una carta
+						if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+							p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+					
+					// Ahora se comprueba si el personaje es Slab para que el objetivo use otro Fallaste si sigue vivo y no ha perdido vida
+					else if(p.getJugadores()[this.idx_Jugador].getIdx_Personaje() == slab)
+						if(!p.getJugadores()[opcion - 1].perderFallaste())
+							if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+								p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+						
+				}
+				break;
+			case 18: // BANG
+				System.out.println("¿A qué jugador quieres disparar?");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+						System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				}
+				opcion = Leer.datoInt();
+				System.out.println("¡BANG!\n");
+				if (opcion > p.getMaximoJugadores() || !p.getJugadores()[opcion - 1].estarVivo())
+				 	System.out.println("Jugador incorrecto");
+				else {
+					while(p.getJugadores()[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores()[this.idx_Jugador].calcularMiAlcance()){
+						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
+						System.out.println("¿A qué jugador quieres disparar?");
+						for(int i = 0; i<p.getMaximoJugadores(); i++) {
+							if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+								System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+						}	
+						opcion = Leer.datoInt();						
+					}
+					
+					// Se comprueba si el objetivo pierde vida
+					if(!p.getJugadores()[opcion - 1].perderFallaste())
+						// si el personaje es bart, roba una carta
+						if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+							p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+					
+					// Ahora se comprueba si el personaje es Slab para que el objetivo use otro Fallaste si sigue vivo y no ha perdido vida
+					else if(p.getJugadores()[this.idx_Jugador].getIdx_Personaje() == slab)
+						if(!p.getJugadores()[opcion - 1].perderFallaste())
+							if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+								p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+						
+				}
+				break;
+			case 19: // BANG
+				System.out.println("¿A qué jugador quieres disparar?");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+						System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				}
+				opcion = Leer.datoInt();
+				System.out.println("¡BANG!\n");
+				if (opcion > p.getMaximoJugadores() || !p.getJugadores()[opcion - 1].estarVivo())
+				 	System.out.println("Jugador incorrecto");
+				else {
+					while(p.getJugadores()[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores()[this.idx_Jugador].calcularMiAlcance()){
+						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
+						System.out.println("¿A qué jugador quieres disparar?");
+						for(int i = 0; i<p.getMaximoJugadores(); i++) {
+							if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+								System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+						}	
+						opcion = Leer.datoInt();						
+					}
+					
+					// Se comprueba si el objetivo pierde vida
+					if(!p.getJugadores()[opcion - 1].perderFallaste())
+						// si el personaje es bart, roba una carta
+						if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+							p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+					
+					// Ahora se comprueba si el personaje es Slab para que el objetivo use otro Fallaste si sigue vivo y no ha perdido vida
+					else if(p.getJugadores()[this.idx_Jugador].getIdx_Personaje() == slab)
+						if(!p.getJugadores()[opcion - 1].perderFallaste())
+							if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+								p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+						
+				}
+				break;
+			case 20: // BANG
+				System.out.println("¿A qué jugador quieres disparar?");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+						System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				}
+				opcion = Leer.datoInt();
+				System.out.println("¡BANG!\n");
+				if (opcion > p.getMaximoJugadores() || !p.getJugadores()[opcion - 1].estarVivo())
+				 	System.out.println("Jugador incorrecto");
+				else {
+					while(p.getJugadores()[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores()[this.idx_Jugador].calcularMiAlcance()){
+						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
+						System.out.println("¿A qué jugador quieres disparar?");
+						for(int i = 0; i<p.getMaximoJugadores(); i++) {
+							if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+								System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+						}	
+						opcion = Leer.datoInt();						
+					}
+					
+					// Se comprueba si el objetivo pierde vida
+					if(!p.getJugadores()[opcion - 1].perderFallaste())
+						// si el personaje es bart, roba una carta
+						if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+							p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+					
+					// Ahora se comprueba si el personaje es Slab para que el objetivo use otro Fallaste si sigue vivo y no ha perdido vida
+					else if(p.getJugadores()[this.idx_Jugador].getIdx_Personaje() == slab)
+						if(!p.getJugadores()[opcion - 1].perderFallaste())
+							if(p.getJugadores()[opcion - 1].getIdx_Personaje() == bart)
+								p.getJugadores()[opcion - 1].robarCartas(p, opcion - 1, 1);
+						
+				}
+				break;
+			case 21: // BANG
+				System.out.println("¿A qué jugador quieres disparar?");
+				for(int i = 0; i<p.getMaximoJugadores(); i++) {
+					if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+						System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+				}
+				opcion = Leer.datoInt();
+				System.out.println("¡BANG!\n");
+				if (opcion > p.getMaximoJugadores() || !p.getJugadores()[opcion - 1].estarVivo())
+				 	System.out.println("Jugador incorrecto");
+				else {
+					while(p.getJugadores()[this.idx_Jugador].calcularDistanciaJugador(p, p.getJugadores()[opcion - 1]) > p.getJugadores()[this.idx_Jugador].calcularMiAlcance()){
+						System.out.println("No puedes disparar a ese jugador, está demasiado lejos. Elija un nuevo objetivo:");
+						System.out.println("¿A qué jugador quieres disparar?");
+						for(int i = 0; i<p.getMaximoJugadores(); i++) {
+							if(i != this.idx_Jugador && p.getJugadores()[i].estarVivo())
+								System.out.println("[" + (i+1) + "] - " + p.getJugadores()[i].getNombre());
+						}	
+						opcion = Leer.datoInt();						
 					}
 					
 					// Se comprueba si el objetivo pierde vida
