@@ -28,6 +28,7 @@ public class ImprimirJugador {
 		System.out.println("|----------------------------------------------------------------------------------------------------------------------------------|");
 		System.out.println("| Nombre: " + j.getNombre() + "\tRol: " + bdp.getRol()[j.getIdx_Rol()] + "\tPersonaje: " + bdpj.getPersonajes()[j.getIdx_Personaje()].getNombre() +  "\t\tVidas: " + j.getVidaActual() + "\tArma en Juego: " + arma + "\t   Alcance: " + j.calcularMiAlcance() + "\t |");
 		System.out.println("|----------------------------------------------------------------------------------------------------------------------------------|");
+		System.out.println("\n");
 	}
 	
 	public void mostrarCartasNombre(Jugador j) {
@@ -57,6 +58,8 @@ public class ImprimirJugador {
 						System.out.println("-(*)Arma: " + j.getCartas()[i].getNombre() + ": " + j.getCartas()[i].getDescripcion());
 					else
 						System.out.println("- Arma..: " + j.getCartas()[i].getNombre() + ": " + j.getCartas()[i].getDescripcion());
+				else
+					System.out.println("- " + j.getCartas()[i].getNombre() + ": " + j.getCartas()[i].getDescripcion());
 			}
 		}
 	}

@@ -99,15 +99,20 @@ public class Principal {
 							switch (opComenzar) {
 								case 1:
 									ip.mostrarInstrucciones(bdp);		
-									ip.imprimirEstadoPartida(p);
 									do {
 										for (int i = 0; i < jugadores.length; i++) {
-											// Al inicio del turno se le dan dos cartas al jugador
-											jugadores[i].robarCartas(p, jugadores[i].getIdx_jugador_propio(), 2);
-											
+											if(!jugadores[i].estarVivo()) {
+												pt.pasarTurno(p);
+												i++;
+											}
+											ip.imprimirEstadoPartida(p);
+											// Se resetean el numero de bang jugados 
 											num_Bang_Lanzados = 0;
 											
+											// Al inicio del turno se le dan dos cartas al jugador
+											jugadores[i].robarCartas(p, jugadores[i].getIdx_jugador_propio(), 2);
 											do {
+												
 												ij.mostrarAcciones();
 												opAccion = Leer.datoInt();
 												switch (opAccion) {
@@ -196,12 +201,11 @@ public class Principal {
 														p.getJugadores()[i].getCartas()[opDescartar - 1].setEstado(enMazo);
 														System.out.println("Te has descartado de " + p.getJugadores()[i].getCartas()[opDescartar - 1].getNombre() + "\n");
 													}
-													
-													ip.imprimirEstadoPartida(p);
 													break;
 												default:	
 												}
 											} while (opAccion != 0);
+											
 										}
 													
 									} while (p.isFinPartida() == false);

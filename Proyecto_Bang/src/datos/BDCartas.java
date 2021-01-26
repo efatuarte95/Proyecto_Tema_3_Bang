@@ -18,7 +18,7 @@ public class BDCartas {
 	private Carta c5 = new Carta (5, "Ametralladora Gatling", 2, 0, 0, "Dispara un BANG a todos los jugadores.", -1);
 	private Carta c6 = new Carta (6, "¡Indios!", 2, 0, 0, "Utiliza un BANG o pierde 1 de vida.", -1);
 	private Carta c7 = new Carta (7, "Duelo", 2, 0, 0, "Utilízalo para iniciar un duelo con alguien, por cada BANG que saques él tendrá que sacar un FALLASTE, el que pierda pierde 1 de vida.", -1);
-	private Carta c8 = new Carta (8, "Colt 45", 3, 0, 0, "Tu alcance cambia a 1.", -1);
+	private Carta c8 = new Carta (8, "Colt 45", 3, 0, 1, "Tu alcance cambia a 1.", -1);
 	private Carta c9 = new Carta (9, "Revolver Carabine", 3, 0, 4, "Tu alcance cambia a 4.", -1); 
 	private Carta c10 = new Carta (10, "Schofield", 3, 0, 2, "Tu alcance cambia a 2.", -1);
 	private Carta c11 = new Carta (11, "Winchester", 3, 0, 5, "Tu alcance cambia a 5.", -1);
