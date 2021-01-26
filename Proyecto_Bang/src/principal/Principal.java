@@ -104,18 +104,18 @@ public class Principal {
 												opAccion = Leer.datoInt();
 												switch (opAccion) {
 												case 1:
-													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													System.out.println("Rol: " + bdp.getRol()[jugadores[i].getIdx_Rol()]);
 													System.out.println("Objetivo: " + bdp.getDescripcion()[jugadores[i].getIdx_Rol()]);
 													break;
 												case 2:
-													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													for (int j = 0; j < jugadores.length; j++) {
 														System.out.println(p.getJugadores()[j].getNombre() + ": " + p.getJugadores()[j].getVidaActual() + " vidas.");
 													}
 													break;
 												case 3:
-													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													System.out.println("¿Qué carta deseas jugar?");
 													ij.mostrarCartasNombre(jugadores[i]);
 													opJugar = Leer.datoInt();
@@ -159,15 +159,15 @@ public class Principal {
 															pt.pasarTurno(p);
 													break;
 												case 4:
-													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													ij.mostrarPersonaje(bdpj.getPersonajes()[jugadores[i].getIdx_Personaje()]);
 													break;
 												case 5:
-													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													ij.mostrarCartas(jugadores[i]);
 													break;
 												case 6:
-													ij.mostrarInformacionJugador(jugadores[i]);
+													ij.mostrarInformacionJugador(jugadores[i], bdp, bdpj);
 													System.out.println("¿De qué carta deseas deshacerte?");
 													ij.mostrarCartasNombre(jugadores[i]);
 													opDescartar = Leer.datoInt();

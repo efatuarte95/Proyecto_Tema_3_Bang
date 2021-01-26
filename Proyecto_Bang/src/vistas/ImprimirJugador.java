@@ -1,5 +1,7 @@
 package vistas;
 
+import datos.BDPartida;
+import datos.BDPersonajes;
 import model.Jugador;
 import model.Personaje;
 
@@ -16,16 +18,16 @@ public class ImprimirJugador {
 		System.out.println("[0] - Pasar turno.");
 	}
 	
-	public void mostrarInformacionJugador(Jugador j) {
+	public void mostrarInformacionJugador(Jugador j, BDPartida bdp, BDPersonajes bdpj) {
 		String arma = "Ninguna";
 		int enJuego = 2;
 		for (int i = 0; i < j.getCartas().length; i++) {
 			if(j.getCartas()[i] != null && j.getCartas()[i].getEstado() == enJuego)
 				arma = j.getCartas()[i].getNombre();
 		}
-		System.out.println("|------------------------------------------------------------------------------------|");
-		System.out.println("| Nombre: " + j.getNombre() + "\tVidas: " + j.getVidaActual() + "\tArma en Juego: " + arma + "\t   Alcance: " + j.calcularMiAlcance() + "\t |");
-		System.out.println("|------------------------------------------------------------------------------------|");
+		System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------|");
+		System.out.println("| Nombre: " + j.getNombre() + "\tRol: " + bdp.getRol()[j.getIdx_Rol()] + "\tPersonaje: " + bdpj.getPersonajes()[j.getIdx_Personaje()].getNombre() +  "\tVidas: " + j.getVidaActual() + "\tArma en Juego: " + arma + "\t   Alcance: " + j.calcularMiAlcance() + "\t |");
+		System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------|");
 	}
 	
 	public void mostrarCartasNombre(Jugador j) {
